@@ -223,7 +223,7 @@ class xrowMetaDataType extends eZDataType
           $xml = new SimpleXMLElement( $attribute->attribute( 'data_text' ) );
 
           $keywords = htmlspecialchars_decode( (string) $xml->keywords, ENT_QUOTES );
-          $keywords = !empty( $keywords ) ? $keywords : '';
+	  $keywords = !empty( $keywords ) ? explode( ",", $keywords ) : '';
 
           $meta = new xrowMetaData( htmlspecialchars_decode( (string)$xml->title, ENT_QUOTES ),
                                     $keywords,
