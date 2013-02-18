@@ -14,19 +14,19 @@ class eZClusterDirectoryIterator implements Iterator
                 {
                     continue;
                 }
-                
+
                 $this->array[] = eZClusterFileHandler::instance( $dirname . '/' . $file->getFilename() );
             }
         }
         elseif ( $handler instanceof eZDFSFileHandler )
         {
-            $sitemaplist = $handler->getFileList( array( 
-                "sitemap" 
+            $sitemaplist = $handler->getFileList( array(
+                "sitemap"
             ) );
             foreach ( $sitemaplist as $sitemap )
             {
 				$so = eZClusterFileHandler::instance( $sitemap );
-				
+
                 if ( strpos( $so->name(), $dirname ) !== false and !$so->isExpired( -1, time(), null ) )
                 #if ( strpos( $so->name(), $dirname ) !== false )
                 {
@@ -41,31 +41,31 @@ class eZClusterDirectoryIterator implements Iterator
 
     function rewind()
     {
-        
+
         $this->position = 0;
     }
 
     function current()
     {
-        
+
         return $this->array[$this->position];
     }
 
     function key()
     {
-        
+
         return $this->position;
     }
 
     function next()
     {
-        
+
         ++ $this->position;
     }
 
     function valid()
     {
-        
+
         return isset( $this->array[$this->position] );
     }
 }

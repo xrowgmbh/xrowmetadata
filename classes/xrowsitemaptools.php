@@ -1,7 +1,7 @@
 <?php
 
 /* Legacy 4.2 */
-require_once "access.php";
+//require_once "access.php";
 
 class xrowSitemapTools
 {
@@ -706,7 +706,6 @@ class xrowSitemapTools
                 }
             }
         }
-
         $subtreeCount = eZContentObjectTreeNode::subTreeCountByNodeID( $params, $rootNode->NodeID );
 
         $max = min( $max, $subtreeCount );
