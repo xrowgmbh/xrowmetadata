@@ -14,9 +14,9 @@ class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
      * @var array
      */
     public static $subattributesDefinition = array( 
-    	self::DEFAULT_SUBATTRIBUTE => 'string',
-		'description' => 'string',
-    	'title' => 'string'
+    	self::DEFAULT_SUBATTRIBUTE => 'text',
+		'description' => 'text',
+    	'title' => 'text'
     );
     
     /**
