@@ -2,6 +2,8 @@
 
 class xrowSitemapItemAlternateLink extends xrowSitemapItem
 {
+    const DEFAULT_MOBILE_MAX_WIDTH = 480;
+
     public $href; // text
 
     function __construct( $href = false )
@@ -17,7 +19,9 @@ class xrowSitemapItemAlternateLink extends xrowSitemapItem
     {
         $alter = $sitemap->dom->createElement( 'xhtml:link' );
         $alter->setAttribute( 'rel', 'alternate' );
-        $alter->setAttribute( 'media', 'only screen and (max-width: 640px)' );
+        $xrowSitemapIni = eZINI::instance( 'xrowsitemap.ini' );
+        $mobileMaxWidth = $xrowSitemapIni->hasVariable( 'SitemapSettings', 'MobileMaxWidth' ) ? $xrowSitemapIni->variable( 'SitemapSettings', 'MobileMaxWidth' ) : self::DEFAULT_MOBILE_MAX_WIDTH;
+        $alter->setAttribute( 'media', 'only screen and (max-width: ' . $mobileMaxWidth . 'px)' );
         $alter->setAttribute( 'href', $this->href );
         return $alter;
     }

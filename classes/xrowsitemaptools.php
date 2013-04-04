@@ -12,7 +12,7 @@ class xrowSitemapTools
     const FILETYP_STANDARD = 'standard';
     const FILETYP_ARCHIVE = 'archive';
     const FILETYP_NEWS = 'news';
-    const FILETYP_MODILE = 'mobile';
+    const FILETYP_MOBILE = 'mobile';
 
     public static $excludes = null;
 

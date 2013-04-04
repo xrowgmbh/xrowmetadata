@@ -33,25 +33,27 @@ class xrowMobileSitemap extends xrowSitemapList
         {
             return;
         }
-        
+
         $node = $this->dom->createElement( constant( get_class( $this ) . '::ITEMNAME' ) );
         $subNode = $this->dom->createElement( 'loc' );
         $subNode->appendChild( $this->dom->createTextNode( $url ) );
         $node->appendChild( $subNode );
-        
+
         if ( is_array( $extensions ) )
         {
             foreach ( $extensions as $extension )
             {
-                $subNode = $this->createDOMElement( $extension );
-                $node->appendChild( $subNode );
+                if ( $extension instanceof xrowSitemapItem )
+                {
+                    $node->appendChild( $extension->DOMElement( $this ) );
+                }
             }
         }
-        
+
         // mobile stuff
         $m = $this->dom->createElement( 'mobile:mobile' );
         $node->appendChild( $m );
-        
+
         // append to root node
         $this->root->appendChild( $node );
     }
