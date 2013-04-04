@@ -26,7 +26,6 @@ class eZClusterDirectoryIterator implements Iterator
             foreach ( $sitemaplist as $sitemap )
             {
                 $so = eZClusterFileHandler::instance( $sitemap );
-
                 if ( strpos( $so->name(), $dirname ) !== false and !$so->isExpired( -1, time(), null ) )
                 #if ( strpos( $so->name(), $dirname ) !== false )
                 {
