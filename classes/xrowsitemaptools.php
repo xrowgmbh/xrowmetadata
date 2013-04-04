@@ -884,7 +884,19 @@ class xrowSitemapTools
 
         $url = $rootNode->attribute( 'url_alias' );
         eZURI::transformURI( $url );
-        $url = 'http://' . self::domain() . $url;
+
+        if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MobileDomainName' ) &&
+             $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MobileDomainName' ) != '' )
+        {
+            $mobileDomain = $xrowsitemapINI->variable( 'SitemapSettings', 'MobileDomainName' );
+        }
+        else
+        {
+            $mobileDomain = self::domain();
+        }
+
+
+        $url = 'http://' . $mobileDomain . $url;
 
         if ( $meta and $meta->sitemap_use != '0' )
         {
@@ -922,7 +934,7 @@ class xrowSitemapTools
 
                 $url = $subTreeNode->attribute( 'url_alias' );
                 eZURI::transformURI( $url );
-                $url = 'http://' . self::domain() . $url;
+                $url = 'http://' . $mobileDomain . $url;
 
                 if ( $meta and $meta->sitemap_use != '0' )
                 {
@@ -953,7 +965,7 @@ class xrowSitemapTools
             $params['Offset'] += $params['Limit'];
         }
         // write XML Sitemap to file
-        $dir = eZSys::storageDirectory() . '/sitemap/' . self::domain();
+        $dir = eZSys::storageDirectory() . '/sitemap/' . $mobileDomain;
         if ( ! is_dir( $dir ) )
         {
             mkdir( $dir, 0777, true );
