@@ -965,7 +965,7 @@ class xrowSitemapTools
             $params['Offset'] += $params['Limit'];
         }
         // write XML Sitemap to file
-        $dir = eZSys::storageDirectory() . '/sitemap/' . $mobileDomain;
+        $dir = eZSys::storageDirectory() . '/sitemap/' . self::domain();
         if ( ! is_dir( $dir ) )
         {
             mkdir( $dir, 0777, true );
