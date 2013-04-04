@@ -525,7 +525,13 @@ class xrowSitemapTools
             $sitemapfiles[] = $dir . "/" . $filename;
             $tmpsitemapfiles[] = $cachedir . "/" . $filename;
 
-            $sitemap->saveLocal( $cachedir . "/" . $filename );
+            if( $sitemap->saveLocal( $cachedir . "/" . $filename ) === false )
+            {
+                throw new ezcBaseFileIoException(
+                    $filename,
+                    ezcBaseFileException::WRITE, 'Could not write data to cache file.' );
+            }
+
             if ( ! $isQuiet )
             {
                 $cli->output( "\n" );
