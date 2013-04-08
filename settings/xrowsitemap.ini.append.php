@@ -37,6 +37,7 @@ MobileSitemap=disabled
 # AvailableSiteAccessList[]
 # AvailableSiteAccessList[]=ger
 # AvailableSiteAccessList[]=eng
+MainNodeOnly=false
 
 # include or exclude objects of classes listed in ClassFilterArray
 #ClassFilterType=exclude

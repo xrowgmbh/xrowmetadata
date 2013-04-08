@@ -421,6 +421,11 @@ class xrowSitemapTools
         {
             $params['AttributeFilter'] = array( array( 'published', '>', $timestamp ) );
         }
+		
+		if( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MainNodeOnly' ) && $xrowsitemapINI->Variable( 'SitemapSettings', 'MainNodeOnly' ) == "true" )
+        {
+            $params['MainNodeOnly'] = true;
+        }
 
         if ( isset( $params2 ) )
         {
