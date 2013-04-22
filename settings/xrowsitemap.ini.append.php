@@ -83,12 +83,16 @@ MainNodeOnly=false
 # create alternate link to mobile website
 # CreateAlternateLink=enabled
 
+# To be included as an item property
+# Ex: <xhtml:link rel="alternate" media='only screen and (max-width: 640px)' href=""...>
+MobileMaxWidth=640
+
 # Siteaccess name of the mobile site
 # MobileSiteAccessName=m
 
 # domain name of the mobile site
 # only use this if you have remove siteaccess enabled
-# MobileSiteAccessName=m.example.com
+# MobileDomainName=m.example.com
 
 [MobileSitemapSettings]
 # here you need to specify every siteaccess a sitemap shall be created for
@@ -141,7 +145,6 @@ MainNodeOnly=false
 # if you would like to exclude some nodes and their children
 #ExcludeNodes[]
 #ExcludeNodes[]=70162
-
 
 [NewsSitemapSettings]
 # Name of the publication

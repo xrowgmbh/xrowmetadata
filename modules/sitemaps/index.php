@@ -10,8 +10,8 @@ if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'AvailableSiteAccessList' 
 }
 else
 {
-    $siteAccessArray = array( 
-        $ini->variable( 'SiteSettings', 'DefaultAccess' ) 
+    $siteAccessArray = array(
+        $ini->variable( 'SiteSettings', 'DefaultAccess' )
     );
 }
 
@@ -28,10 +28,10 @@ if ( is_array( $siteAccessArray ) && count( $siteAccessArray ) > 0 )
 
 $index = new xrowSitemapIndex();
 
-$dirArray = array( 
-    eZSys::storageDirectory() . '/sitemap/' . xrowSitemapTools::domain() , 
-    eZSys::storageDirectory() . '/sitemap/' . xrowSitemapTools::domain() . '/' . xrowSitemapTools::FILETYP_ARCHIVE , 
-    eZSys::storageDirectory() . '/sitemap/' . xrowSitemapTools::domain() . '/' . xrowSitemapTools::FILETYP_STANDARD 
+$dirArray = array(
+    eZSys::storageDirectory() . '/sitemap/' . xrowSitemapTools::domain() ,
+    eZSys::storageDirectory() . '/sitemap/' . xrowSitemapTools::domain() . '/' . xrowSitemapTools::FILETYP_ARCHIVE ,
+    eZSys::storageDirectory() . '/sitemap/' . xrowSitemapTools::domain() . '/' . xrowSitemapTools::FILETYP_STANDARD
 );
 
 foreach ( $dirArray as $item )
@@ -41,8 +41,19 @@ foreach ( $dirArray as $item )
 
 function addFiles( &$index, $dirname, $dirArray )
 {
-    $dir = new eZClusterDirectoryIterator( $dirname );
-    
+    try
+    {
+        $dir = new eZClusterDirectoryIterator( $dirname );
+    }
+    catch( Exception $e )
+    {
+        if( $e instanceof UnexpectedValueException )
+        {
+            eZDebug::writeDebug( "Cannot add $dirname to the sitemaps index because it does not exist" );
+            return;
+        }
+    }
+
     foreach ( $dir as $file )
     {
         $f = eZClusterFileHandler::instance( $file->name() );
@@ -56,7 +67,7 @@ function addFiles( &$index, $dirname, $dirArray )
     {
         foreach ( $dir as $file )
         {
-            
+
             if ( in_array( $file->name(), $dirArray ) )
             {
                 continue;
@@ -69,8 +80,8 @@ function addFiles( &$index, $dirname, $dirArray )
                 if ( !in_array( $loc, $GLOBALS['loc'] ) )
                 {
                     $GLOBALS['loc'][] = $loc;
-                    $index->add( $loc, array( 
-                        $date 
+                    $index->add( $loc, array(
+                        $date
                     ) );
                 }
             }
@@ -85,8 +96,8 @@ if ( $ini->hasVariable( 'Settings', 'AddSitemapIndex' ) )
     $urlList = $ini->variable( 'Settings', 'AddSitemapIndex' );
     foreach ( $urlList as $loc )
     {
-        $index->add( $loc, array( 
-            $date 
+        $index->add( $loc, array(
+            $date
         ) );
     }
 }
