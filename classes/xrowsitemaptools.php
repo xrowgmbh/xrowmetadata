@@ -1,7 +1,7 @@
 <?php
 
 /* Legacy 4.2 */
-require_once "access.php";
+//require_once "access.php";
 
 class xrowSitemapTools
 {
@@ -12,7 +12,7 @@ class xrowSitemapTools
     const FILETYP_STANDARD = 'standard';
     const FILETYP_ARCHIVE = 'archive';
     const FILETYP_NEWS = 'news';
-    const FILETYP_MODILE = 'mobile';
+    const FILETYP_MOBILE = 'mobile';
 
     public static $excludes = null;
 
@@ -68,7 +68,6 @@ class xrowSitemapTools
     public static function domain()
     {
         $ini = eZINI::instance( 'site.ini' );
-
         $domain = preg_split( '/[\/\:]/i', $ini->variable( 'SiteSettings', 'SiteURL' ), 2 );
         if ( is_array( $domain ) )
         {
@@ -216,32 +215,46 @@ class xrowSitemapTools
         $extensions[] = new xrowSitemapItemModified( $node->attribute( 'modified_subnode' ) );
 
         $url = $node->attribute( 'url_alias' );
-        eZURI::transformURI( $url, true );
+        $urlAlias = $url;
 
+        // $urlAlias is kept 'as is' to be able to generate these links
+        eZURI::transformURI( $urlAlias, true );
         if ( $ini->hasVariable( 'SitemapSettings', 'CreateAlternateLink' ) )
         {
             if ( $ini->hasVariable( 'SitemapSettings', 'MobileSiteAccessName' ) &&
             $ini->hasVariable( 'SitemapSettings', 'MobileSiteAccessName' ) != '' )
             {
                 $mobileSiteAccess = $ini->variable( 'SitemapSettings', 'MobileSiteAccessName' );
-                $mobileURL = 'http://' . self::domain() . '/' . $mobileSiteAccess . $url;
+                $mobileURL = 'http://' . self::domain() . '/' . $mobileSiteAccess . $urlAlias;
             }
             if ( $ini->hasVariable( 'SitemapSettings', 'MobileDomainName' ) &&
             $ini->hasVariable( 'SitemapSettings', 'MobileDomainName' ) != '' )
             {
                 $mobileDomain = $ini->variable( 'SitemapSettings', 'MobileDomainName' );
-                $mobileURL = 'http://' . $mobileDomain . $url;
+                $mobileURL = 'http://' . $mobileDomain . $urlAlias;
             }
             $extensions[] = new xrowSitemapItemAlternateLink( $mobileURL );
         }
 
-        if ( $site_ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' or $ini->variable( 'Settings', 'HideSiteaccessAlways' ) == 'true' )
+        $transformURIMode = eZURI::getTransformURIMode();
+        // force URL to be generated in 'full mode' if MatchOrder != uri
+        if( $site_ini->variable( 'MatchOrder', 'SiteAccessSettings' ) != 'uri' )
         {
-            $url = 'http://' . self::domain() . $url;
+            $transformURIMode = 'full';
         }
-        else
+        eZURI::transformURI( $url, true, $transformURIMode );
+
+        // only the URI mode is fully compatible with this $url generation
+        if( $site_ini->variable( 'MatchOrder', 'SiteAccessSettings' ) == 'uri' )
         {
-            $url = 'http://' . self::domain() . '/' . $GLOBALS['eZCurrentAccess']['name'] . $url;
+            if ( $site_ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' or $ini->variable( 'Settings', 'HideSiteaccessAlways' ) == 'true' )
+            {
+                $url = 'http://' . self::domain() . $url;
+            }
+            else
+            {
+                $url = 'http://' . self::domain() . '/' . $GLOBALS['eZCurrentAccess']['name'] . $url;
+            }
         }
 
         if ( $ini->hasVariable( 'SitemapSettings', 'GalleryClasses' ) and in_array( $node->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'GalleryClasses' ) ) )
@@ -517,7 +530,13 @@ class xrowSitemapTools
             $sitemapfiles[] = $dir . "/" . $filename;
             $tmpsitemapfiles[] = $cachedir . "/" . $filename;
 
-            $sitemap->saveLocal( $cachedir . "/" . $filename );
+            if( $sitemap->saveLocal( $cachedir . "/" . $filename ) === false )
+            {
+                throw new ezcBaseFileIoException(
+                    $filename,
+                    ezcBaseFileException::WRITE, 'Could not write data to cache file.' );
+            }
+
             if ( ! $isQuiet )
             {
                 $cli->output( "\n" );
@@ -711,7 +730,6 @@ class xrowSitemapTools
                 }
             }
         }
-
         $subtreeCount = eZContentObjectTreeNode::subTreeCountByNodeID( $params, $rootNode->NodeID );
 
         $max = min( $max, $subtreeCount );
@@ -871,7 +889,19 @@ class xrowSitemapTools
 
         $url = $rootNode->attribute( 'url_alias' );
         eZURI::transformURI( $url );
-        $url = 'http://' . self::domain() . $url;
+
+        if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MobileDomainName' ) &&
+             $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MobileDomainName' ) != '' )
+        {
+            $mobileDomain = $xrowsitemapINI->variable( 'SitemapSettings', 'MobileDomainName' );
+        }
+        else
+        {
+            $mobileDomain = self::domain();
+        }
+
+
+        $url = 'http://' . $mobileDomain . $url;
 
         if ( $meta and $meta->sitemap_use != '0' )
         {
@@ -909,7 +939,7 @@ class xrowSitemapTools
 
                 $url = $subTreeNode->attribute( 'url_alias' );
                 eZURI::transformURI( $url );
-                $url = 'http://' . self::domain() . $url;
+                $url = 'http://' . $mobileDomain . $url;
 
                 if ( $meta and $meta->sitemap_use != '0' )
                 {
