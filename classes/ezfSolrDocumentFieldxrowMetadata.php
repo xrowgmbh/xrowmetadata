@@ -48,15 +48,8 @@ class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
         if($this->ContentObjectAttribute->attribute( 'has_content' ))
         {
             $data[self::getFieldName( $contentClassAttribute, 'title' )] = $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'title' );
-            $data[self::getFieldName( $contentClassAttribute, 'description' )] = $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'description' );
-            if ( is_array( $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'keywords' ) ) )
-            {
-                $data[self::getFieldName( $contentClassAttribute, self::DEFAULT_SUBATTRIBUTE )] = implode(",", $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'keywords' ) );
-            }
-            else
-            {
-                $data[self::getFieldName( $contentClassAttribute, self::DEFAULT_SUBATTRIBUTE )] = "";
-            }
+        	$data[self::getFieldName( $contentClassAttribute, 'description' )] = $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'description' );
+        	$data[self::getFieldName( $contentClassAttribute, self::DEFAULT_SUBATTRIBUTE )] = implode(",", $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'keywords' ) );
         }
         return $data;
     }
