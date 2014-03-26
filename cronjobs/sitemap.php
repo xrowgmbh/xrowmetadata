@@ -2,6 +2,7 @@
 
 $ini = eZINI::instance( 'site.ini' );
 $xrowsitemapINI = eZINI::instance( 'xrowsitemap.ini' );
+$hostArrayWares = array();
 
 //getting custom set site access or default access
 if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'AvailableSiteAccessList' ) )
@@ -15,6 +16,20 @@ else
     );
 }
 
+if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'HostUriMatchMapItems' ) )
+{
+    $hostArrays = $xrowsitemapINI->variable( 'SitemapSettings', 'HostUriMatchMapItems' );
+}
+
+foreach($hostArrays as $hostArray)
+{
+    $hostArrayTemp=explode(";",$hostArray);
+    if(!(in_array($hostArrayTemp[0],$hostArrayWares)))
+    {
+        array_push($hostArrayWares,$hostArrayTemp[0]);
+    }
+}
+
 if ( $xrowsitemapINI->variable( 'Settings', 'Sitemap' ) == 'enabled' )
 {
     if ( ! $isQuiet )
@@ -24,6 +39,9 @@ if ( $xrowsitemapINI->variable( 'Settings', 'Sitemap' ) == 'enabled' )
     xrowSitemapTools::siteaccessCallFunction( $siteAccessArray, 'xrowSitemapTools::createSitemap' );
 }
 
-xrowSitemapTools::ping();
-
+foreach($hostArrayWares as $hostArrayWare)
+{
+    $cli->output( "Submit Sitemap $hostArrayWare to Google and Bing.....\n" );
+    xrowSitemapTools::ping($hostArrayWare);
+}
 ?>

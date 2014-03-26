@@ -37,6 +37,9 @@ MobileSitemap=disabled
 # AvailableSiteAccessList[]
 # AvailableSiteAccessList[]=ger
 # AvailableSiteAccessList[]=eng
+#HostUriMatchMapItems[]
+#HostUriMatchMapItems[]=www.xxxxxxxx.de;x_de
+#HostUriMatchMapItems[]=www.xxxxxxxx.de;xx_de
 MainNodeOnly=false
 
 # include or exclude objects of classes listed in ClassFilterArray

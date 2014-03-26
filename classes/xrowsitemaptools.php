@@ -27,6 +27,7 @@ class xrowSitemapTools
     public static function siteaccessCallFunction( $siteaccesses = array(), $fnc = null )
     {
         $old_access = $GLOBALS['eZCurrentAccess'];
+        $ini = eZINI::instance( 'site.ini' );
         foreach ( $siteaccesses as $siteaccess )
         {
             /* Change the siteaccess */
@@ -34,20 +35,36 @@ class xrowSitemapTools
                 "name" => $siteaccess ,
                 "type" => EZ_ACCESS_TYPE_URI
             ) );
-            call_user_func( $fnc );
+            
+            if( $ini->hasVariable( 'UserSettings', 'AnonymousUserID' ) )
+            {
+                $user_id= $ini->variable( 'UserSettings', 'AnonymousUserID' );
+                $user=eZUser::fetch( $user_id );
+                if ( $user instanceof eZUser )
+                {
+                    $user->loginCurrent();
+                    call_user_func( $fnc );
+                }else{
+                    continue;
+                }
+            }
         }
         self::changeAccess( $old_access );
     }
 
-    public static function ping()
+    public static function ping( $hostname = null )
     {
+        if ( $hostname === null )
+        {
+            $hostname = self::domain();
+        }
         $ini = eZINI::instance( 'xrowsitemap.ini' );
         // send a ping to google?
         if ( ( $ini->hasVariable( 'Settings', 'Ping' ) and $ini->variable( 'Settings', 'Ping' ) == 'true' ) or ! $ini->hasVariable( 'Settings', 'Ping' ) )
         {
             $uri = '/sitemaps/index';
             eZURI::transformURI( $uri );
-            $link = 'http://' . self::domain() . $uri;
+            $link = 'http://' . $hostname . $uri;
             // google
             $url = "http://www.google.com/webmasters/tools/ping?sitemap=" . $link;
             file_get_contents( $url );
@@ -208,6 +225,11 @@ class xrowSitemapTools
             return false;
         }
 
+        if(in_array('15',$node->attribute('object')->attribute('state_id_array')))
+        {
+            return false;
+        }
+        
         if ( $ini->hasVariable( 'SitemapSettings', 'GalleryClasses' ) and $node->attribute( 'parent' ) instanceof eZContentObjectTreeNode and in_array( $node->attribute( 'parent' )->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'GalleryClasses' ) ) and in_array( $node->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'ImageClasses' ) ) )
         {
             return false;
@@ -389,7 +411,6 @@ class xrowSitemapTools
         {
             $cli->output( "Generating sitemap for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " \n" );
         }
-        $ini = eZINI::instance( 'site.ini' );
 
         if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'ClassFilterType' ) and $xrowsitemapINI->hasVariable( 'SitemapSettings', 'ClassFilterArray' ) )
         {
@@ -434,8 +455,8 @@ class xrowSitemapTools
         {
             $params['AttributeFilter'] = array( array( 'published', '>', $timestamp ) );
         }
-		
-		if( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MainNodeOnly' ) && $xrowsitemapINI->Variable( 'SitemapSettings', 'MainNodeOnly' ) == "true" )
+
+        if( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MainNodeOnly' ) && $xrowsitemapINI->Variable( 'SitemapSettings', 'MainNodeOnly' ) == "true" )
         {
             $params['MainNodeOnly'] = true;
         }
@@ -446,13 +467,14 @@ class xrowSitemapTools
         }
         $rootNode = self::rootNode();
         $subtreeCount = eZContentObjectTreeNode::subTreeCountByNodeID( $params, $rootNode->NodeID );
+        
         if ( $subtreeCount <= 1 )
         {
             # could be an old installation with no fresh content!
-            #throw new Exception( "No Items found under RootNode $rootNode->NodeID." );
+            //throw new Exception( "No Items found under RootNode $rootNode->NodeID." );
             return;
         }
-
+        
         $sitemap = new xrowSitemap();
         // Generate Sitemap
         self::addNode( $sitemap, $rootNode );
@@ -558,7 +580,7 @@ class xrowSitemapTools
             $max_all += $max;
             $sitemap = new xrowSitemap();
         }
-        self::cleanDir($dir);
+        self::cleanDir($cachedir);
         //move all from cache to cluster filesystem
         foreach( $sitemapfiles as $key => $sitemapfile )
         {
