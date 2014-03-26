@@ -225,9 +225,13 @@ class xrowSitemapTools
             return false;
         }
 
-        if(in_array('15',$node->attribute('object')->attribute('state_id_array')))
+        if ( $ini->hasVariable( 'ExtraAttributeFilter_1', 'Value' ) )
         {
-            return false;
+            $offlineNummer = $ini->variable( 'ExtraAttributeFilter_1', 'Value' );
+            if(in_array($offlineNummer,$node->attribute('object')->attribute('state_id_array')))
+            {
+                return false;
+            }
         }
         
         if ( $ini->hasVariable( 'SitemapSettings', 'GalleryClasses' ) and $node->attribute( 'parent' ) instanceof eZContentObjectTreeNode and in_array( $node->attribute( 'parent' )->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'GalleryClasses' ) ) and in_array( $node->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'ImageClasses' ) ) )
