@@ -225,14 +225,14 @@ class xrowSitemapTools
             return false;
         }
 
-        if ( $ini->hasVariable( 'ExtraAttributeFilter_1', 'Value' ) )
+        /*if ( $ini->hasVariable( 'ExtraAttributeFilter_1', 'Value' ) )
         {
             $offlineNummer = $ini->variable( 'ExtraAttributeFilter_1', 'Value' );
             if(in_array($offlineNummer,$node->attribute('object')->attribute('state_id_array')))
             {
                 return false;
             }
-        }
+        }*/
         
         if ( $ini->hasVariable( 'SitemapSettings', 'GalleryClasses' ) and $node->attribute( 'parent' ) instanceof eZContentObjectTreeNode and in_array( $node->attribute( 'parent' )->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'GalleryClasses' ) ) and in_array( $node->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'ImageClasses' ) ) )
         {
@@ -459,7 +459,25 @@ class xrowSitemapTools
         {
             $params['AttributeFilter'] = array( array( 'published', '>', $timestamp ) );
         }
-
+        
+        if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'ExtraAttributeFilter' ) )
+        {
+            $extra_attribute_filter = array();
+            $extra_attribute_filter = $xrowsitemapINI->variable( 'SitemapSettings', 'ExtraAttributeFilter' );
+        }
+        
+        if ( isset( $extra_attribute_filter ) )
+        {
+            foreach ( $extra_attribute_filter as $key => $extra_attribute_filter_item )
+            {
+                if ( $xrowsitemapINI->hasGroup( $extra_attribute_filter_item ) )
+                {
+                    $value = $xrowsitemapINI->variable( $extra_attribute_filter_item, 'Value' );
+                    array_push( $params['AttributeFilter'], $value ); 
+                }
+            }
+        }
+        
         if( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'MainNodeOnly' ) && $xrowsitemapINI->Variable( 'SitemapSettings', 'MainNodeOnly' ) == "true" )
         {
             $params['MainNodeOnly'] = true;
