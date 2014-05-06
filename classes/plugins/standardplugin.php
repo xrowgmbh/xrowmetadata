@@ -119,6 +119,26 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
                         $video->content_loc = 'http://' . xrowSitemapTools::domain() . '/' . $uri;
                     }
                     break;
+                case 'xrowvideo':
+                    if ( $attribute->hasContent() )
+                    {
+                        $content = $attribute->content();
+                        $uri = "content/download/" . $content["media"]->attribute->ContentObjectID . '/' . $content["media"]->attribute->ID . '/' . $content["binary"]->OriginalFilename ;
+                        $video->content_loc = 'http://' . xrowSitemapTools::domain() . '/' . $uri;
+                        $video->duration = $content["video"]["duration"];
+                    }
+                    break;
+            }
+            switch ( $attribute->ContentClassAttributeIdentifier )
+            {
+                case 'description':
+                    if ( $attribute->hasContent() )
+                    {
+                        $content = $attribute->content();
+                        $descriptions=substr(strip_tags($content->ContentObjectAttribute->DataText),0,2048);
+                        $video->description = $descriptions;
+                    }
+                    break;
             }
         }
         return $video;
