@@ -264,14 +264,14 @@ class xrowSitemapTools
 
         $transformURIMode = eZURI::getTransformURIMode();
         // force URL to be generated in 'full mode' if MatchOrder != uri
-        if( $site_ini->variable( 'MatchOrder', 'SiteAccessSettings' ) != 'uri' )
+        if( $site_ini->variable( 'SiteAccessSettings', 'MatchOrder' ) != 'uri' )
         {
             $transformURIMode = 'full';
         }
         eZURI::transformURI( $url, true, $transformURIMode );
 
         // only the URI mode is fully compatible with this $url generation
-        if( $site_ini->variable( 'MatchOrder', 'SiteAccessSettings' ) == 'uri' )
+        if( $site_ini->variable( 'SiteAccessSettings', 'MatchOrder' ) == 'uri' )
         {
             if ( $site_ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' or $ini->variable( 'Settings', 'HideSiteaccessAlways' ) == 'true' )
             {
@@ -580,7 +580,6 @@ class xrowSitemapTools
                     $filename,
                     ezcBaseFileException::WRITE, 'Could not write data to cache file.' );
             }
-
             if ( ! $isQuiet )
             {
                 $cli->output( "\n" );
@@ -602,7 +601,12 @@ class xrowSitemapTools
             $max_all += $max;
             $sitemap = new xrowSitemap();
         }
-        self::cleanDir($cachedir);
+        
+        $handler = eZClusterFileHandler::instance();
+        if ( $handler instanceof eZDFSFileHandler or $handler instanceof eZDBFileHandler )
+        {
+            self::cleanDir($cachedir);
+        }
         //move all from cache to cluster filesystem
         foreach( $sitemapfiles as $key => $sitemapfile )
         {
@@ -613,7 +617,14 @@ class xrowSitemapTools
                 $cli->output( "\n" );
                 $cli->output( "Time: " . date( 'd.m.Y H:i:s' ) . ". Action: Sitemap $filename for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " has been moved to $dir.\n" );
             }
-            unlink( $tmpsitemapfiles[$key] );
+            if ( $handler instanceof eZDFSFileHandler or $handler instanceof eZDBFileHandler )
+            {
+                unlink( $tmpsitemapfiles[$key] );
+            }
+        }
+        if ( $handler instanceof eZFSFileHandler )
+        {
+            self::cleanDir($cachedir);
         }
     }
 

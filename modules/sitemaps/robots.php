@@ -1,7 +1,17 @@
 <?php
-if ( file_exists( 'robots.txt' ) )
+$xrowsitemapINI = eZINI::instance( 'xrowsitemap.ini' );
+if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'RobotsPath' ) )
 {
-    $content = file_get_contents( 'robots.txt' );
+    $robotspath = $xrowsitemapINI->variable( 'SitemapSettings', 'RobotsPath' );
+}
+else
+{
+    $robotspath = 'robots.txt';
+}
+
+if ( file_exists( $robotspath ) )
+{
+    $content = file_get_contents( $robotspath );
 }
 else
 {
