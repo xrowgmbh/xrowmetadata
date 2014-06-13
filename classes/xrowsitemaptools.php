@@ -379,7 +379,14 @@ class xrowSitemapTools
     public static function createSitemap( $archive = false )
     {
         $cli = $GLOBALS['cli'];
-        global $cli, $isQuiet;
+
+        if (is_null($cli))            
+        {
+             $cli = eZCLI::instance();      
+        }       
+
+        //global $cli, $isQuiet;
+
         $xrowsitemapINI = eZINI::instance( 'xrowsitemap.ini' );
         if ( ! $xrowsitemapINI->hasVariable( 'Settings', 'Archive' ) or $xrowsitemapINI->variable( 'Settings', 'Archive' ) != 'disabled' )
         {
