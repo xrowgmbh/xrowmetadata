@@ -378,14 +378,7 @@ class xrowSitemapTools
 
     public static function createSitemap( $archive = false )
     {
-        $cli = $GLOBALS['cli'];
-
-        if (is_null($cli))            
-        {
-             $cli = eZCLI::instance();      
-        }       
-
-        //global $cli, $isQuiet;
+        $cli = eZCLI::instance();      
 
         $xrowsitemapINI = eZINI::instance( 'xrowsitemap.ini' );
         if ( ! $xrowsitemapINI->hasVariable( 'Settings', 'Archive' ) or $xrowsitemapINI->variable( 'Settings', 'Archive' ) != 'disabled' )
@@ -638,8 +631,8 @@ class xrowSitemapTools
     public static function createNewsSitemap()
     {
         eZDebug::writeDebug( "Generating news sitemap ...", __METHOD__ );
-        $cli = $GLOBALS['cli'];
-        global $cli, $isQuiet;
+
+        $cli = eZCLI::instance();
         if ( ! $isQuiet )
         {
             $cli->output( "Generating new sitemap for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " \n" );
@@ -879,8 +872,8 @@ class xrowSitemapTools
     public static function createMobileSitemap()
     {
         eZDebug::writeDebug( "Generating mobile sitemap ...", __METHOD__ );
-        $cli = $GLOBALS['cli'];
-        global $cli, $isQuiet;
+        
+        $cli = eZCLI::instance();
         if ( ! $isQuiet )
         {
             $cli->output( "Generating mobile sitemap for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " \n" );
