@@ -99,9 +99,6 @@ class xrowSitemapList
             $file->delete();
         }
         $xml = $this->dom->saveXML();
-
-var_dump($file->storeContents( $xml, 'sitemap', 'text/xml' ));
-die($xml."here");
         return $file->storeContents( $xml, 'sitemap', 'text/xml' );
     }
 
