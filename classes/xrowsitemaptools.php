@@ -113,11 +113,15 @@ class xrowSitemapTools
 
     public static function getNewsConverter()
     {
-        $converter = eZExtension::getHandlerClass( new ezpExtensionOptions( array(
-            'iniFile' => 'xrowsitemap.ini' ,
-            'iniSection' => 'Settings' ,
-            'iniVariable' => 'NewsConverter'
-        ) ) );
+        $ini = eZINI::instance( 'xrowsitemap.ini' );
+        if ( $ini->hasVariable( 'Settings', 'NewsConverter' ) )
+        {
+            $converter = eZExtension::getHandlerClass( new ezpExtensionOptions( array(
+                'iniFile' => 'xrowsitemap.ini' ,
+                'iniSection' => 'Settings' ,
+                'iniVariable' => 'NewsConverter'
+            ) ) );
+        }
         if ( ! $converter )
         {
             $converter = new xrowSitemapConverter();
@@ -127,11 +131,15 @@ class xrowSitemapTools
 
     public static function getVideoConverter()
     {
-        $converter = eZExtension::getHandlerClass( new ezpExtensionOptions( array(
-            'iniFile' => 'xrowsitemap.ini' ,
-            'iniSection' => 'Settings' ,
-            'iniVariable' => 'VideoConverter'
-        ) ) );
+        $ini = eZINI::instance( 'xrowsitemap.ini' );
+        if ( $ini->hasVariable( 'Settings', 'VideoConverter' ) )
+        {
+            $converter = eZExtension::getHandlerClass( new ezpExtensionOptions( array(
+                'iniFile' => 'xrowsitemap.ini' ,
+                'iniSection' => 'Settings' ,
+                'iniVariable' => 'VideoConverter'
+            ) ) );
+        }
         if ( ! $converter )
         {
             $converter = new xrowSitemapConverter();
@@ -141,11 +149,15 @@ class xrowSitemapTools
 
     public static function getImageConverter()
     {
-        $converter = eZExtension::getHandlerClass( new ezpExtensionOptions( array(
-            'iniFile' => 'xrowsitemap.ini' ,
-            'iniSection' => 'Settings' ,
-            'iniVariable' => 'ImageConverter'
-        ) ) );
+        $ini = eZINI::instance( 'xrowsitemap.ini' );
+        if ( $ini->hasVariable( 'Settings', 'ImageConverter' ) )
+        {
+            $converter = eZExtension::getHandlerClass( new ezpExtensionOptions( array(
+                'iniFile' => 'xrowsitemap.ini' ,
+                'iniSection' => 'Settings' ,
+                'iniVariable' => 'ImageConverter'
+            ) ) );
+        }
         if ( ! $converter )
         {
             $converter = new xrowSitemapConverter();
