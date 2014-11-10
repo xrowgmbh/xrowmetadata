@@ -44,7 +44,7 @@ class xrowMetaData extends ezcBaseStruct
         }
     }
 
-    function hasattribute( $name )
+    function hasAttribute( $name )
     {
         $classname = get_class( $this );
         $vars = get_class_vars( $classname );
@@ -52,6 +52,11 @@ class xrowMetaData extends ezcBaseStruct
             return true;
         else
             return false;
+    }
+
+    function attributes()
+    {
+        return array('title','description','keywords');
     }
 
     function attribute( $name )
