@@ -15,6 +15,13 @@ else
     );
 }
 
+
+// adding the mobile sitemap site accesses
+if ( $xrowsitemapINI->hasVariable( 'MobileSitemapSettings', 'AvailableSiteAccessList' ) )
+{
+    $siteAccessArray = array_merge( $siteAccessArray, $xrowsitemapINI->variable( 'MobileSitemapSettings', 'AvailableSiteAccessList' ) );
+}
+
 $Module = $Params['Module'];
 $access = $GLOBALS['eZCurrentAccess']['name'];
 
