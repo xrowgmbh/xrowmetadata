@@ -35,10 +35,10 @@
 <div class="block">
 
 	<div class="element"> 
-		<label><input id="more_checkbox" type="checkbox" {if or(ne($attribute.content.change,'daily'),ne($attribute.content.priority,'0.5'))}checked="checked"{/if} /> {'More options'|i18n( 'design/standard/class/datatype' )}</label>
+		<label><input id="more_checkbox" type="checkbox" {if or(ne($attribute.content.sitemap_use,1),ne($attribute.content.change,'daily'),ne($attribute.content.priority,''))}checked="checked"{/if} /> {'More options'|i18n( 'design/standard/class/datatype' )}</label>
 	</div>
 
-	<div id="options_div" {if and(eq($attribute.content.change,'daily'),eq($attribute.content.priority,'0.5'))}class="hide"{/if}>
+	<div id="options_div" {if and(eq($attribute.content.sitemap_use,1),eq($attribute.content.change,'daily'),eq($attribute.content.priority,''))}class="hide"{/if}>
 		
 		<div class="element"> 
 			<label>{'Use in sitemap'|i18n( 'design/standard/class/datatype' )}:</label>
