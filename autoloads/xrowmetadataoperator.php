@@ -49,7 +49,8 @@ class xrowMetaDataOperator
                         $cur_parent=$cur_node->fetchParent();
                         $obj_name=$cur_node->getName();
                         $obj_count =$cur_node->subTreeCount(array( 'IgnoreVisibility' => true ));
-                        $obj_path =str_replace('/',' | ',(string)$cur_node->pathWithNames());
+                        $path_array_temp=array_reverse(explode('/',$cur_node->pathWithNames()));
+                        $obj_path =implode(' | ',$path_array_temp);
                         $obj_parentname =$cur_parent->Name;
                         
                         $operatorValue = xrowMetaDataFunctions::fetchByObject( $cur_node->attribute( 'object' ) );
