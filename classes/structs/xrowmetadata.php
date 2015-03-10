@@ -14,6 +14,7 @@ class xrowMetaData extends ezcBaseStruct
         $this->title = $title;
         $this->keywords = $keywords;
         $this->description = $description;
+        $this->sitemap_use = $sitemap_use;
         if ( empty( $priority ) )
         {
             $this->priority = null;
@@ -56,7 +57,7 @@ class xrowMetaData extends ezcBaseStruct
 
     function attributes()
     {
-        return array('title','description','keywords');
+        return array('title','description','keywords','sitemap_use');
     }
 
     function attribute( $name )

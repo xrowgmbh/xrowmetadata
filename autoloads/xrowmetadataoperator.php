@@ -37,6 +37,16 @@ class xrowMetaDataOperator
 
     function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        $ini= eZINI::instance('xrowmetadata.ini');
+        $page_limit = $ini->variable( 'EditorInputSettings', 'MaxPageLimit' );
+        $uri = eZURI::instance( eZSys::requestURI() );
+        $viewParameters = $uri->UserParameters();
+        if(count($viewParameters)==0)
+        {
+            $page_offset=0;
+        }else{
+            $page_offset=$viewParameters['offset'];
+        }
         switch ( $operatorName )
         {
             case 'metadata':
@@ -49,10 +59,15 @@ class xrowMetaDataOperator
                         $cur_parent = $node->fetchParent();
                         $obj_name = $node->getName();
                         $obj_count = $node->subTreeCount(array( 'IgnoreVisibility' => true ));
+                        $localbusiness_count= $node->subTreeCount(array( 'IgnoreVisibility' => true,
+                                                                         'ClassFilterType'=> 'include',
+                                                                         'ClassFilterArray'=> array('localbusiness')));
                         $path_array_temp = array_reverse(explode('/', $node->pathWithNames()));
                         $obj_path = implode(' | ', $path_array_temp);
                         $obj_parentname = $cur_parent->Name;
-
+                        $page_count=ceil($localbusiness_count/$page_limit);
+                        $page_nr=($page_offset/$page_limit)+1;
+                        $page_count_value=$page_nr."/".$page_count;
                         $operatorValue = xrowMetaDataFunctions::fetchByObject( $node->attribute( 'object' ) );
                         if($operatorValue !== false)
                         {
@@ -77,6 +92,12 @@ class xrowMetaDataOperator
                                                 continue;
                                             case "parentname":
                                                 $meta_title = str_replace("[parentname]", $obj_parentname, $search_title);
+                                                continue;
+                                            case "count:localbusiness":
+                                                $meta_title = str_replace("[count:localbusiness]", $localbusiness_count, $search_title);
+                                                continue;
+                                            case "pagecount":
+                                                $meta_title = str_replace("[pagecount]", $page_count_value, $search_title);
                                                 continue;
                                         }
                                         $search_title = $meta_title;
@@ -106,6 +127,12 @@ class xrowMetaDataOperator
                                                 continue;
                                             case "parentname":
                                                 $meta_description = str_replace("[parentname]", $obj_parentname, $search_description);
+                                                continue;
+                                            case "count:localbusiness":
+                                                $meta_description = str_replace("[count:localbusiness]", $localbusiness_count, $search_description);
+                                                continue;
+                                            case "pagecount":
+                                                $meta_description = str_replace("[pagecount]", $page_count_value, $search_description);
                                                 continue;
                                         }
                                         $search_description = $meta_description;
