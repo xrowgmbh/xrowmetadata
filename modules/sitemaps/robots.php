@@ -8,16 +8,17 @@ else
 {
     $robotspath = 'robots.txt';
 }
+$content = "\nUser-agent: *\nSitemap: http://" . $_SERVER['HTTP_HOST'] . "/sitemaps/index";
 
 if ( file_exists( $robotspath ) )
 {
-    $content = file_get_contents( $robotspath );
+    $content .= file_get_contents( $robotspath );
 }
 else
 {
-    $content = '';
+    $content .= '';
 }
-$content .= "\nSitemap: http://" . $_SERVER['HTTP_HOST'] . "/sitemaps/index";
+
 // Set header settings
 header( 'Content-Type: text/plain; charset=UTF-8' );
 header( 'Content-Length: ' . strlen( $content ) );
