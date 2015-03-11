@@ -114,5 +114,9 @@
         <source>Title required.</source>
         <translation>Titel - Eingabe erforderlich.</translation>
     </message>
+    <message>
+        <source>page</source>
+        <translation>Seite</translation>
+    </message>
 </context>
 </TS>
