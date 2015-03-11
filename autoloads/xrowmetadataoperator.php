@@ -67,7 +67,7 @@ class xrowMetaDataOperator
                         $obj_parentname = $cur_parent->Name;
                         $page_count=ceil($localbusiness_count/$page_limit);
                         $page_nr=($page_offset/$page_limit)+1;
-                        $page_count_value=ezpI18n::tr( 'kernel/classes/datatypes', 'page' ). $page_nr."/".$page_count;
+                        $page_count_value=ezpI18n::tr( 'kernel/classes/datatypes', 'page' )." ".$page_nr."/".$page_count;
                         $operatorValue = xrowMetaDataFunctions::fetchByObject( $node->attribute( 'object' ) );
                         if($operatorValue !== false)
                         {
