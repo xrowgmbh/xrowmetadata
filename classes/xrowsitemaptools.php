@@ -43,7 +43,12 @@ class xrowSitemapTools
                 if ( $user instanceof eZUser )
                 {
                     $user->loginCurrent();
-                    call_user_func( $fnc );
+                    try{
+                        call_user_func( $fnc );
+                    }catch( Exception $e ){
+                        eZCLI::instance()->output( "Skipping access $siteaccess" );
+                        continue;
+                    }
                 }else{
                     continue;
                 }
