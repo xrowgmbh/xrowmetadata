@@ -125,7 +125,7 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
                         $content = $attribute->content();
                         $uri = "content/download/" . $content["media"]->attribute->ContentObjectID . '/' . $content["media"]->attribute->ID . '/' . $content["binary"]->OriginalFilename ;
                         $video->content_loc = 'http://' . xrowSitemapTools::domain() . '/' . $uri;
-                        $video->duration = $content["video"]["duration"];
+                        $video->duration = (int) $content["video"]["duration"];
                     }
                     break;
             }
