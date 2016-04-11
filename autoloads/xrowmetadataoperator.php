@@ -57,89 +57,28 @@ class xrowMetaDataOperator
                     if( $node instanceof eZContentObjectTreeNode )
                     {
                         $cur_parent = $node->fetchParent();
-                        $obj_name = $node->getName();
-                        $obj_count = $node->subTreeCount(array( 'IgnoreVisibility' => true ));
-                        $localbusiness_count= $node->subTreeCount(array( 'IgnoreVisibility' => true,
-                                                                         'ClassFilterType'=> 'include',
-                                                                         'ClassFilterArray'=> array('localbusiness')));
+                        $replaceArray['name'] = $node->getName();
+                        $replaceArray['count'] = $node->subTreeCount(array( 'IgnoreVisibility' => true ));
+                        $replaceArray['count:localbusiness']= $node->subTreeCount(array( 'IgnoreVisibility' => true,
+                                                                                         'ClassFilterType'=> 'include',
+                                                                                         'ClassFilterArray'=> array('localbusiness')));
                         $path_array_temp = array_reverse(explode('/', $node->pathWithNames()));
-                        $obj_path = implode(' | ', $path_array_temp);
-                        $obj_parentname = $cur_parent->Name;
-                        $page_count=ceil($localbusiness_count/$page_limit);
+                        $replaceArray['path'] = implode(' | ', $path_array_temp);
+                        $replaceArray['parentname'] = $cur_parent->Name;
+                        $page_count=ceil($replaceArray['count:localbusiness']/$page_limit);
                         $page_nr=($page_offset/$page_limit)+1;
-                        $page_count_value=ezpI18n::tr( 'kernel/classes/datatypes', 'page' )." ".$page_nr."/".$page_count;
+                        $replaceArray['pagecount']=ezpI18n::tr( 'kernel/classes/datatypes', 'page' )." ".$page_nr."/".$page_count;
+                        
                         $operatorValue = xrowMetaDataFunctions::fetchByObject( $node->attribute( 'object' ) );
                         if($operatorValue !== false)
                         {
                             if(isset($operatorValue->title))
                             {
-                                $search_title = $operatorValue->title;
-                                $placeholder_title_array = self::getPlaceholders($search_title);
-                                if(count($placeholder_title_array) !== 0)
-                                {
-                                    foreach($placeholder_title_array as $placeholder_title)
-                                    {
-                                        switch($placeholder_title)
-                                        {
-                                            case "count":
-                                                $meta_title = str_replace("[count]", $obj_count, $search_title);
-                                                continue;
-                                            case "name":
-                                                $meta_title = str_replace("[name]", $obj_name, $search_title);
-                                                continue;
-                                            case "path":
-                                                $meta_title = str_replace("[path]", $obj_path, $search_title);
-                                                continue;
-                                            case "parentname":
-                                                $meta_title = str_replace("[parentname]", $obj_parentname, $search_title);
-                                                continue;
-                                            case "count:localbusiness":
-                                                $meta_title = str_replace("[count:localbusiness]", $localbusiness_count, $search_title);
-                                                continue;
-                                            case "pagecount":
-                                                $meta_title = str_replace("[pagecount]", $page_count_value, $search_title);
-                                                continue;
-                                        }
-                                        $search_title = $meta_title;
-                                    }
-                                    $operatorValue->title = $search_title;
-                                    unset($search_title);
-                                }
+                                $operatorValue->title = self::getReplaceValue( $operatorValue->title,$replaceArray );
                             }
                             if(isset($operatorValue->description))
                             {
-                                $search_description = $operatorValue->description;
-                                $placeholder_title_description = self::getPlaceholders($search_description);
-                                if(count($placeholder_title_description) !== 0)
-                                {
-                                    foreach($placeholder_title_description as $placeholder_description)
-                                    {
-                                        switch($placeholder_description)
-                                        {
-                                            case "count":
-                                                $meta_description = str_replace("[count]", $obj_count, $search_description);
-                                                continue;
-                                            case "name":
-                                                $meta_description = str_replace("[name]", $obj_name, $search_description);
-                                                continue;
-                                            case "path":
-                                                $meta_description = str_replace("[path]", $obj_path, $search_description);
-                                                continue;
-                                            case "parentname":
-                                                $meta_description = str_replace("[parentname]", $obj_parentname, $search_description);
-                                                continue;
-                                            case "count:localbusiness":
-                                                $meta_description = str_replace("[count:localbusiness]", $localbusiness_count, $search_description);
-                                                continue;
-                                            case "pagecount":
-                                                $meta_description = str_replace("[pagecount]", $page_count_value, $search_description);
-                                                continue;
-                                        }
-                                        $search_description = $meta_description;
-                                    }
-                                    $operatorValue->description = $search_description;
-                                    unset($search_description);
-                                }
+                                $operatorValue->description = self::getReplaceValue( $operatorValue->description,$replaceArray );
                             }
                         }
                     }
@@ -153,6 +92,48 @@ class xrowMetaDataOperator
                     $operatorValue = false;
                 }
             }break;
+        }
+    }
+    
+    /**
+     * getReplaceValue()
+     *
+     * @param string $operatorValue
+     * @param array $replaceArray
+     * @return string
+     */
+    protected static function getReplaceValue($operatorValue,$replaceArray)
+    {
+        $search_value = $operatorValue;
+        $placeholder_array = self::getPlaceholders($search_value);
+        if(count($placeholder_array) !== 0)
+        {
+            foreach($placeholder_array as $placeholder_value)
+            {
+                switch($placeholder_value)
+                {
+                    case "count":
+                        $meta_title = str_replace("[count]", $replaceArray['count'], $search_value);
+                        continue;
+                    case "name":
+                        $meta_title = str_replace("[name]", $replaceArray['name'], $search_value);
+                        continue;
+                    case "path":
+                        $meta_title = str_replace("[path]", $replaceArray['path'], $search_value);
+                        continue;
+                    case "parentname":
+                        $meta_title = str_replace("[parentname]", $replaceArray['parentname'], $search_value);
+                        continue;
+                    case "count:localbusiness":
+                        $meta_title = str_replace("[count:localbusiness]", $replaceArray['count:localbusiness'], $search_value);
+                        continue;
+                    case "pagecount":
+                        $meta_title = str_replace("[pagecount]", $replaceArray['pagecount'], $search_value);
+                        continue;
+                }
+                $search_value = $meta_title;
+            }
+            return $search_value;
         }
     }
 }
