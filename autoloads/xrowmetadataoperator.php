@@ -133,8 +133,8 @@ class xrowMetaDataOperator
                 }
                 $search_value = $meta_title;
             }
-            return $search_value;
         }
+        return $search_value;
     }
 }
 
