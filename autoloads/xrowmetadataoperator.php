@@ -28,7 +28,7 @@ class xrowMetaDataOperator
         );
     }
 
-    static function getPlaceholders($str)
+    function getPlaceholders($str)
     {
         $result = array();
         preg_match_all('/(?<=\[)([^\]]*?)(?=\])/',$str, $result);
@@ -74,11 +74,11 @@ class xrowMetaDataOperator
                         {
                             if(isset($operatorValue->title))
                             {
-                                $operatorValue->title = self::getReplaceValue( $operatorValue->title,$replaceArray );
+                                $operatorValue->title = $this->getReplaceValue( $operatorValue->title,$replaceArray );
                             }
                             if(isset($operatorValue->description))
                             {
-                                $operatorValue->description = self::getReplaceValue( $operatorValue->description,$replaceArray );
+                                $operatorValue->description = $this->getReplaceValue( $operatorValue->description,$replaceArray );
                             }
                         }
                     }
@@ -102,10 +102,10 @@ class xrowMetaDataOperator
      * @param array $replaceArray
      * @return string
      */
-    protected static function getReplaceValue($operatorValue,$replaceArray)
+    protected function getReplaceValue($operatorValue,$replaceArray)
     {
         $search_value = $operatorValue;
-        $placeholder_array = self::getPlaceholders($search_value);
+        $placeholder_array = $this->getPlaceholders($search_value);
         if(count($placeholder_array) !== 0)
         {
             foreach($placeholder_array as $placeholder_value)
