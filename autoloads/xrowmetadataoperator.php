@@ -28,7 +28,7 @@ class xrowMetaDataOperator
         );
     }
 
-    function getPlaceholders($str)
+    static function getPlaceholders($str)
     {
         $result = array();
         preg_match_all('/(?<=\[)([^\]]*?)(?=\])/',$str, $result);
