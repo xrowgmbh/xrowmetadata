@@ -428,7 +428,7 @@ class xrowSitemapTools
             $timestamp = $time->attribute( 'value' );
         }
         eZDebug::writeDebug( "Generating sitemap ...", __METHOD__ );
-        if ( ! $isQuiet )
+        if ( ! $cli->isQuiet() )
         {
             $cli->output( "Generating sitemap for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " \n" );
         }
@@ -524,7 +524,7 @@ class xrowSitemapTools
         $params['Offset'] = 0;
         $counter = 1;
         $runs = ceil( $subtreeCount / $max_all );
-        if ( ! $isQuiet )
+        if ( ! $cli->isQuiet() )
         {
             $amount = $subtreeCount + 1; // for root node
             $cli->output( "Adding $amount nodes to the sitemap for RootNode $rootNode->NodeID." );
@@ -547,7 +547,7 @@ class xrowSitemapTools
         while ( $counter <= $runs )
         {
             eZDebug::writeDebug( 'Run ' . $counter . ' of ' . $runs . ' runs' );
-            if ( ! $isQuiet )
+            if ( ! $cli->isQuiet() )
             {
                 $cli->output( 'Run ' . $counter . ' of ' . $runs . ' runs' );
                 if ( $counter == 1 )
@@ -597,7 +597,7 @@ class xrowSitemapTools
                     $filename,
                     ezcBaseFileException::WRITE, 'Could not write data to cache file.' );
             }
-            if ( ! $isQuiet )
+            if ( ! $cli->isQuiet() )
             {
                 $cli->output( "\n" );
                 $cli->output( "Time: " . date( 'd.m.Y H:i:s' ) . ". Action: Sitemap $filename for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " has been generated in $cachedir.\n" );
@@ -629,7 +629,7 @@ class xrowSitemapTools
         {
             $file = eZClusterFileHandler::instance( $sitemapfile );
             $file->storeContents( file_get_contents( $tmpsitemapfiles[$key] ), 'sitemap', 'text/xml' );
-            if ( ! $isQuiet )
+            if ( ! $cli->isQuiet() )
             {
                 $cli->output( "\n" );
                 $cli->output( "Time: " . date( 'd.m.Y H:i:s' ) . ". Action: Sitemap $filename for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " has been moved to $dir.\n" );
@@ -650,7 +650,7 @@ class xrowSitemapTools
         eZDebug::writeDebug( "Generating news sitemap ...", __METHOD__ );
 
         $cli = eZCLI::instance();
-        if ( ! $isQuiet )
+        if ( ! $cli->isQuiet() )
         {
             $cli->output( "Generating new sitemap for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " \n" );
         }
@@ -810,7 +810,7 @@ class xrowSitemapTools
         $params['Offset'] = 0;
         $counter = 1;
         $runs = ceil( $subtreeCount / $max_all );
-        if ( ! $isQuiet )
+        if ( ! $cli->isQuiet() )
         {
             $amount = $subtreeCount;
             $cli->output( "Adding $amount nodes to the news sitemap." );
@@ -820,7 +820,7 @@ class xrowSitemapTools
         while ( $counter <= $runs )
         {
             eZDebug::writeDebug( 'Run ' . $counter . ' of ' . $runs . ' runs' );
-            if ( ! $isQuiet )
+            if ( ! $cli->isQuiet() )
             {
                 $cli->output( 'Run ' . $counter . ' of ' . $runs . ' runs' );
                 if ( $counter == 1 )
@@ -874,7 +874,7 @@ class xrowSitemapTools
                 $filename = $dir . '/' . xrowSitemap::BASENAME . '_' . self::FILETYP_NEWS . '_' . $GLOBALS['eZCurrentAccess']['name'] . '_' . $counter . '.' . xrowSitemap::SUFFIX;
             }
             $sitemap->save( $filename );
-            if ( ! $isQuiet )
+            if ( ! $cli->isQuiet() )
             {
                 $cli->output( "\n" );
                 $cli->output( "Time: " . date( 'd.m.Y H:i:s' ) . ". Action: Sitemap $filename for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " has been generated.\n" );
@@ -891,7 +891,7 @@ class xrowSitemapTools
         eZDebug::writeDebug( "Generating mobile sitemap ...", __METHOD__ );
         
         $cli = eZCLI::instance();
-        if ( ! $isQuiet )
+        if ( ! $cli->isQuiet() )
         {
             $cli->output( "Generating mobile sitemap for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " \n" );
         }
@@ -936,7 +936,7 @@ class xrowSitemapTools
             $cli->output( "No Items found under RootNode $rootNode->NodeID." );
         }
 
-        if ( ! $isQuiet )
+        if ( ! $cli->isQuiet() )
         {
             $amount = $subtreeCount + 1; // +1 is root node
             $cli->output( "Adding $amount nodes to the sitemap for RootNode $rootNode->NodeID." );
@@ -1061,7 +1061,7 @@ class xrowSitemapTools
             $filename .= '.gz';
         }
          **/
-        if ( ! $isQuiet )
+        if ( ! $cli->isQuiet() )
         {
             $cli->output( "\n" );
             $cli->output( "Mobile sitemap $filename for siteaccess " . $GLOBALS['eZCurrentAccess']['name'] . " has been generated.\n" );
