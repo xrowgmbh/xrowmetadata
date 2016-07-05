@@ -68,9 +68,13 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
         $ini = eZINI::instance( 'xrowsitemap.ini' );
         $video = new xrowSitemapItemVideo();
         $video->title = $node->attribute( 'name' );
-        $video->categories = array( 
-            $node->attribute( 'parent' )->attribute( 'name' ) 
-        );
+        #fixing nodes without parents. They should not exist.
+        if( $node->attribute( 'parent' ) )
+        {
+            $video->categories = array( 
+                $node->attribute( 'parent' )->attribute( 'name' ) 
+            );
+        }
         $object = $node->object();
         $video->view_count = eZViewCounter::fetch( $node->attribute( 'node_id' ) )->Count;
         $video->publication_date = new DateTime( '@' . $object->attribute( 'published' ) );
