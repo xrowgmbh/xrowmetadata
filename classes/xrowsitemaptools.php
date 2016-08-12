@@ -259,7 +259,14 @@ class xrowSitemapTools
 
         $url = $node->attribute( 'url_alias' );
         $urlAlias = $url;
-
+        
+        //Ticket #10114 -  correction URLs
+        if (strpos($GLOBALS['eZCurrentAccess']['name'], 'hi_') !== false) {
+            $cur_access = explode('_', $GLOBALS['eZCurrentAccess']['name']);
+            $language_code = $cur_access[1];
+            $url = $language_code . '/' . $url;
+        }
+        
         // $urlAlias is kept 'as is' to be able to generate these links
         eZURI::transformURI( $urlAlias, true );
         if ( $ini->hasVariable( 'SitemapSettings', 'CreateAlternateLink' ) )
