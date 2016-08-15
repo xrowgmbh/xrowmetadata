@@ -31,6 +31,9 @@ VideoSitemap=enabled
 AlwaysAdd=enabled
 MobileSitemap=disabled
 
+# Siteaccesses without a sitemap
+# ExcludeSiteaccess[]
+
 [SitemapSettings]
 # here you need to specify every siteaccess a sitemap shall be created for
 # if no siteaccessarray is given, the default siteaccess will be used for generation
