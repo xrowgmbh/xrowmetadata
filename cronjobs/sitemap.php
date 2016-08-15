@@ -16,6 +16,18 @@ else
     );
 }
 
+if ( $xrowsitemapINI->hasVariable( 'Settings', 'ExcludeSiteaccess' ) )
+{
+    $exclude_array = $xrowsitemapINI->variable( 'Settings', 'ExcludeSiteaccess' );
+    foreach ($siteAccessArray as $key=>$siteaccess_item)
+    {
+        if (in_array($siteaccess_item, $exclude_array))
+        {
+            unset($siteAccessArray[$key]);
+        }
+    }
+}
+
 if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'HostUriMatchMapItems' ) )
 {
     $hostArrays = $xrowsitemapINI->variable( 'SitemapSettings', 'HostUriMatchMapItems' );

@@ -261,10 +261,15 @@ class xrowSitemapTools
         $urlAlias = $url;
         
         //Ticket #10114 -  correction URLs
-        if (strpos($GLOBALS['eZCurrentAccess']['name'], 'hi_') !== false) {
-            $cur_access = explode('_', $GLOBALS['eZCurrentAccess']['name']);
-            $language_code = $cur_access[1];
-            $url = $language_code . '/' . $url;
+        if ( $ini->hasVariable( 'SitemapSettings', 'HostUriMatchMapItems' ) )
+        {
+            $host_uri = self::getUri($ini->variable( 'SitemapSettings', 'HostUriMatchMapItems' ));
+        } elseif ( $site_ini->hasVariable( 'SiteAccessSettings', 'HostUriMatchMapItems' ))
+        {
+            $host_uri = self::getUri($site_ini->variable( 'SiteAccessSettings', 'HostUriMatchMapItems' ));
+        }
+        if ( $host_uri !== '') {
+            $url = $host_uri . '/' . $url;
         }
         
         // $urlAlias is kept 'as is' to be able to generate these links
@@ -1678,6 +1683,31 @@ class xrowSitemapTools
                 }
             }
         }
+    }
+    
+    /*!
+     get URI for the current object
+     return the URI
+     */
+    public static function getUri( $urimatchMapitems )
+    {
+        foreach ( $urimatchMapitems as $hostUriMap )
+        {
+            $hostUri = explode( ';', $hostUriMap );
+            if ( count( $hostUri ) < 3 )
+            {
+                $accessname = $hostUri[1];
+                $uri = '';
+            } else {
+                $accessname = $hostUri[2];
+                $uri = $hostUri[1];
+            }
+            if ( $accessname == $GLOBALS['eZCurrentAccess']['name'] )
+            {
+                break;
+            }
+        }
+        return $uri;
     }
 }
 
