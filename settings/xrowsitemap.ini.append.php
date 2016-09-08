@@ -46,6 +46,11 @@ MobileSitemap=disabled
 #HostUriMatchMapItems[]=www.xxxxxxxx.de;;xx_de
 MainNodeOnly=false
 
+# If any site accesses use the PathPrefix setting, enter them here
+#PathPrefix[]
+#PathPrefix[]=XXXX;x_de
+#PathPrefix[]=YYYY;x_en
+
 # include or exclude objects of classes listed in ClassFilterArray
 #ClassFilterType=exclude
 

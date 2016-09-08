@@ -258,6 +258,33 @@ class xrowSitemapTools
         $extensions[] = new xrowSitemapItemModified( $node->attribute( 'modified_subnode' ) );
 
         $url = $node->attribute( 'url_alias' );
+        
+        // Remove PathPrefix if needed
+        if ($ini->hasVariable( 'SitemapSettings', 'PathPrefix' ) )
+        {
+            $pathPrefixs = $ini->variable( 'SitemapSettings', 'PathPrefix' );
+            foreach ( $pathPrefixs as $pathPrefix_item )
+            {
+                $pathPrefix_to_access = explode( ';', $pathPrefix_item );
+                $accessname_item = $pathPrefix_to_access[1];
+                $pathPrefix_temp = $pathPrefix_to_access[0];
+                if ( $accessname_item == $GLOBALS['eZCurrentAccess']['name'] )
+                {
+                    $pathPrefix = $pathPrefix_temp;
+                    break;
+                } else {
+                    $pathPrefix = "";
+                }
+            }
+            if ( $url != '' && $pathPrefix != '' )
+            {
+                $pathPrefix .= '/';
+                if ( strncmp( $url, $pathPrefix, strlen( $pathPrefix ) ) == 0 )
+                {
+                    $url = substr( $url, strlen( $pathPrefix ) );
+                }
+            }
+        }
         $urlAlias = $url;
         
         //Ticket #10114 -  correction URLs
