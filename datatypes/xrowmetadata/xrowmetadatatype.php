@@ -259,7 +259,7 @@ class xrowMetaDataType extends eZDataType
     function metaData( $attribute )
     {
         $meta = self::fetchMetaData( $attribute );
-        return $meta->title .' '. $meta->keywords.' '. $meta->description;
+        return $meta->title.' '.implode(' ', $meta->keywords).' '.$meta->description;
     }
 
     /*!
