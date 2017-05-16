@@ -8,7 +8,7 @@ else
 {
     $robotspath = 'robots.txt';
 }
-$content = "Sitemap: http://" . $_SERVER['HTTP_HOST'] . "/sitemaps/index\n";
+$content = "Sitemap: https://" . $_SERVER['HTTP_HOST'] . "/sitemaps/index\n";
 
 if ( file_exists( $robotspath ) )
 {
