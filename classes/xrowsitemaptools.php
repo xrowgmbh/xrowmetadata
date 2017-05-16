@@ -69,12 +69,12 @@ class xrowSitemapTools
         {
             $uri = '/sitemaps/index';
             eZURI::transformURI( $uri );
-            $link = 'http://' . $hostname . $uri;
+            $link = 'https://' . $hostname . $uri;
             // google
-            $url = "http://www.google.com/webmasters/tools/ping?sitemap=" . $link;
+            $url = "https://www.google.com/webmasters/tools/ping?sitemap=" . $link;
             file_get_contents( $url );
             // bing
-            $url = "http://www.bing.com/webmaster/ping.aspx?siteMap=" . $link;
+            $url = "https://www.bing.com/webmaster/ping.aspx?siteMap=" . $link;
             file_get_contents( $url );
         }
     }
@@ -307,13 +307,13 @@ class xrowSitemapTools
             $ini->hasVariable( 'SitemapSettings', 'MobileSiteAccessName' ) != '' )
             {
                 $mobileSiteAccess = $ini->variable( 'SitemapSettings', 'MobileSiteAccessName' );
-                $mobileURL = 'http://' . self::domain() . '/' . $mobileSiteAccess . $urlAlias;
+                $mobileURL = 'https://' . self::domain() . '/' . $mobileSiteAccess . $urlAlias;
             }
             if ( $ini->hasVariable( 'SitemapSettings', 'MobileDomainName' ) &&
             $ini->hasVariable( 'SitemapSettings', 'MobileDomainName' ) != '' )
             {
                 $mobileDomain = $ini->variable( 'SitemapSettings', 'MobileDomainName' );
-                $mobileURL = 'http://' . $mobileDomain . $urlAlias;
+                $mobileURL = 'https://' . $mobileDomain . $urlAlias;
             }
             $extensions[] = new xrowSitemapItemAlternateLink( $mobileURL );
         }
@@ -331,11 +331,11 @@ class xrowSitemapTools
         {
             if ( $site_ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' or $ini->variable( 'Settings', 'HideSiteaccessAlways' ) == 'true' )
             {
-                $url = 'http://' . self::domain() . $url;
+                $url = 'https://' . self::domain() . $url;
             }
             else
             {
-                $url = 'http://' . self::domain() . '/' . $GLOBALS['eZCurrentAccess']['name'] . $url;
+                $url = 'https://' . self::domain() . '/' . $GLOBALS['eZCurrentAccess']['name'] . $url;
             }
         }
 
@@ -889,7 +889,7 @@ class xrowSitemapTools
 
                     $url = $node->attribute( 'url_alias' );
                     eZURI::transformURI( $url, true );
-                    $url = 'http://' . self::domain() . $url;
+                    $url = 'https://' . self::domain() . $url;
                     $sitemap->add( $url, $extensions );
 
                     if ( isset( $bar ) )
@@ -1012,7 +1012,7 @@ class xrowSitemapTools
         }
 
 
-        $url = 'http://' . $mobileDomain . $url;
+        $url = 'https://' . $mobileDomain . $url;
 
         if ( $meta and $meta->sitemap_use != '0' )
         {
@@ -1050,7 +1050,7 @@ class xrowSitemapTools
 
                 $url = $subTreeNode->attribute( 'url_alias' );
                 eZURI::transformURI( $url );
-                $url = 'http://' . $mobileDomain . $url;
+                $url = 'https://' . $mobileDomain . $url;
 
                 if ( $meta and $meta->sitemap_use != '0' )
                 {
