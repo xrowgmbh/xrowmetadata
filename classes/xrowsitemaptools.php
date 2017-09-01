@@ -326,6 +326,11 @@ class xrowSitemapTools
         }
         eZURI::transformURI( $url, true, $transformURIMode );
 
+        if($transformURIMode == 'full')
+        {
+            $url = preg_replace("(^https?)", "https", $url );
+        }
+
         // only the URI mode is fully compatible with this $url generation
         if( $site_ini->variable( 'SiteAccessSettings', 'MatchOrder' ) == 'uri' )
         {
