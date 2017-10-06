@@ -14,10 +14,9 @@ class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
      * @var array
      */
     public static $subattributesDefinition = array( 
-        self::DEFAULT_SUBATTRIBUTE => 'text',
-        'description' => 'text',
-        'title' => 'text',
-        'sitemap_use' => 'text'
+    	self::DEFAULT_SUBATTRIBUTE => 'text',
+		'description' => 'text',
+    	'title' => 'text'
     );
     
     /**
@@ -49,9 +48,8 @@ class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
         if($this->ContentObjectAttribute->attribute( 'has_content' ))
         {
             $data[self::getFieldName( $contentClassAttribute, 'title' )] = $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'title' );
-            $data[self::getFieldName( $contentClassAttribute, 'description' )] = $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'description' );
-            $data[self::getFieldName( $contentClassAttribute, 'sitemap_use' )] = $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'sitemap_use' );
-            $data[self::getFieldName( $contentClassAttribute, self::DEFAULT_SUBATTRIBUTE )] = implode(",", $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'keywords' ) );
+        	$data[self::getFieldName( $contentClassAttribute, 'description' )] = $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'description' );
+        	$data[self::getFieldName( $contentClassAttribute, self::DEFAULT_SUBATTRIBUTE )] = implode(",", $this->ContentObjectAttribute->attribute( 'content' )->attribute( 'keywords' ) );
         }
         return $data;
     }
