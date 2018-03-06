@@ -1,6 +1,6 @@
 /*
  * Styling applied if an input field exceeds length defined in the data-maxlength attribute.
- * See ../javascript/wuv_admin_maxlength.js
+ * See ../javascript/admin-maxlength.js
  */
 
 input[data-maxlength].warn {

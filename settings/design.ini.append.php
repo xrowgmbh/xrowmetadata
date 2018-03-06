@@ -4,7 +4,7 @@
 DesignExtensions[]=xrowmetadata
 
 [JavaScriptSettings]
-BackendJavaScriptList[]=wuv_admin_maxlength.js
+BackendJavaScriptList[]=admin-maxlength.js
 
 [StylesheetSettings]
 BackendCSSFileList[]=admin-maxlength.css
