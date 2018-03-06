@@ -28,10 +28,17 @@
     )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_description" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_xrowmetadata_data_array_{$attribute.id}[description]" size="100" maxsize="255" value="{$attribute.content.description|wash()}" />
 </div>
 
-<div class="block">
+{* HideKeywords ini setting controls whether to show keywords inside the options block or before it *}
+{set-block variable=$keywords}
     <label>{'Keywords'|i18n( 'design/standard/class/datatype' )}:</label>
     <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_keywords" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_xrowmetadata_data_array_{$attribute.id}[keywords]" size="100" maxsize="1055" value="{$attribute.content.keywords|implode( ', ' )|wash()}" />
+{/set-block}
+
+{if not($hide_keywords)}
+<div class="block">
+    {$keywords}
 </div>
+{/if}
 
 <div class="block">
 
@@ -79,6 +86,11 @@
                 <option value="1.0" {if eq($attribute.content.priority,'1.0')}selected{/if}>1.0</option>
             </select>
         </div>
+        {if $hide_keywords}
+        <div class="element">
+            {$keywords}
+        </div>
+        {/if}
     </div>
 
 </div>
