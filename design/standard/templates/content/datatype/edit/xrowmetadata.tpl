@@ -1,5 +1,6 @@
 {def $title_max = ezini('EditorInputSettings','MaxTitle','xrowmetadata.ini')
      $descr_max = ezini('EditorInputSettings','MaxDescription','xrowmetadata.ini')
+     $hide_keywords = ezini('EditorInputSettings', 'HideKeywords', 'xrowmetadata.ini')|eq('enabled')
 }
 
 {literal}
@@ -17,13 +18,13 @@
 
 <div class="block">
     <label>{'Title'|i18n( 'design/standard/class/datatype' )}:</label>
-    <input maxlength={$title_max} id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' 
+    <input data-maxlength={$title_max} id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute'
     )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_title" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_xrowmetadata_data_array_{$attribute.id}[title]" size="100" maxsize="255" value="{$attribute.content.title|wash()}" />
 </div>
 
 <div class="block">
     <label>{'Description'|i18n( 'design/standard/class/datatype' )}:</label>
-    <input maxlength="{$descr_max}" id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' 
+    <input data-maxlength="{$descr_max}" id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute'
     )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_description" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_xrowmetadata_data_array_{$attribute.id}[description]" size="100" maxsize="255" value="{$attribute.content.description|wash()}" />
 </div>
 
