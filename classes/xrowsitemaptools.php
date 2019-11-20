@@ -343,7 +343,7 @@ class xrowSitemapTools
                 $url = 'https://' . self::domain() . '/' . $GLOBALS['eZCurrentAccess']['name'] . $url;
             }
         }
-
+        $url = htmlspecialchars_decode($url, ENT_QUOTES);
         if ( $ini->hasVariable( 'SitemapSettings', 'GalleryClasses' ) and in_array( $node->attribute( 'class_identifier' ), $ini->variable( 'SitemapSettings', 'GalleryClasses' ) ) )
         {
             $imageextensions = self::fetchImages( $node );
