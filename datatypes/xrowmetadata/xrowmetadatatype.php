@@ -64,6 +64,11 @@ class xrowMetaDataType extends eZDataType
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Description should be shorter as 155 characters.' ) );
                     return eZInputValidator::STATE_INVALID;
             }
+            if ( !empty( $data['canonical']) && substr($data['canonical'], 0, 8) != "https://" )
+            {
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Canonical url must use https protocol.' ) );
+                    return eZInputValidator::STATE_INVALID;
+            }
         }
         return eZInputValidator::STATE_ACCEPTED;
     }
@@ -80,10 +85,10 @@ class xrowMetaDataType extends eZDataType
             $new = array();
             foreach( $data['keywords'] as $keyword )
             {
-            	if ( trim( $keyword ) )
-            	{
-            		$new[] = trim( $keyword );
-            	}
+                if ( trim( $keyword ) )
+                {
+                    $new[] = trim( $keyword );
+                }
             }
             $data['keywords'] = $new;
             $meta = self::fillMetaData( $data );
@@ -125,13 +130,13 @@ class xrowMetaDataType extends eZDataType
     */
     function storeObjectAttribute( $attribute )
     {
-    	if( $attribute->ID === null )
-    	{
-    		eZPersistentObject::storeObject( $attribute );
-    	}
+        if( $attribute->ID === null )
+        {
+            eZPersistentObject::storeObject( $attribute );
+        }
 
-		$meta = $attribute->content();
-    	$xmlString = self::saveXML( $meta );
+        $meta = $attribute->content();
+        $xmlString = self::saveXML( $meta );
         $attribute->setAttribute( 'data_text', $xmlString );
 
         // save keywords
@@ -223,14 +228,15 @@ class xrowMetaDataType extends eZDataType
           $xml = new SimpleXMLElement( $attribute->attribute( 'data_text' ) );
 
           $keywords = htmlspecialchars_decode( (string) $xml->keywords, ENT_QUOTES );
-	  $keywords = !empty( $keywords ) ? explode( ",", $keywords ) : array();
+          $keywords = !empty( $keywords ) ? explode( ",", $keywords ) : array();
 
           $meta = new xrowMetaData( htmlspecialchars_decode( (string)$xml->title, ENT_QUOTES ),
                                     $keywords,
                                     htmlspecialchars_decode( (string)$xml->description, ENT_QUOTES ),
                                     htmlspecialchars_decode( (string)$xml->priority, ENT_QUOTES ),
                                     htmlspecialchars_decode( (string)$xml->change, ENT_QUOTES ),
-                                    htmlspecialchars_decode( (string)$xml->sitemap_use , ENT_QUOTES ) );
+                                    htmlspecialchars_decode( (string)$xml->sitemap_use , ENT_QUOTES ),
+                                    htmlspecialchars_decode( (string)$xml->canonical , ENT_QUOTES ) );
           return $meta;
        }
        catch ( Exception $e )
@@ -243,7 +249,7 @@ class xrowMetaDataType extends eZDataType
      */
     function fillMetaData( $array )
     {
-        return new xrowMetaData( $array['title'], $array['keywords'], $array['description'], $array['priority'], $array['change'], $array['sitemap_use'] );
+        return new xrowMetaData( $array['title'], $array['keywords'], $array['description'], $array['priority'], $array['change'], $array['sitemap_use'], $array['canonical'] );
     }
     /*!
      Returns the content.
@@ -319,9 +325,9 @@ class xrowMetaDataType extends eZDataType
         return true;
     }
 
-	function saveXML( $meta )
-	{
-    	$xml = new DOMDocument( "1.0", "UTF-8" );
+    function saveXML( $meta )
+    {
+        $xml = new DOMDocument( "1.0", "UTF-8" );
         $xmldom = $xml->createElement( "MetaData" );
         $node = $xml->createElement( "title", htmlspecialchars( $meta->title, ENT_QUOTES, 'UTF-8' ) );
         $xmldom->appendChild( $node );
@@ -329,13 +335,15 @@ class xrowMetaDataType extends eZDataType
         $xmldom->appendChild( $node );
         $node = $xml->createElement( "description", htmlspecialchars( $meta->description, ENT_QUOTES, 'UTF-8' ) );
         $xmldom->appendChild( $node );
+        $node = $xml->createElement( "canonical", htmlspecialchars( $meta->canonical, ENT_QUOTES, 'UTF-8' ) );
+        $xmldom->appendChild( $node );
         if (!empty( $meta->priority ) )
         {
-        	$node = $xml->createElement( "priority", htmlspecialchars( $meta->priority, ENT_QUOTES, 'UTF-8' ) );
+            $node = $xml->createElement( "priority", htmlspecialchars( $meta->priority, ENT_QUOTES, 'UTF-8' ) );
         }
         else
         {
-        	$node = $xml->createElement( "priority" );
+            $node = $xml->createElement( "priority" );
         }
         $xmldom->appendChild( $node );
         $node = $xml->createElement( "change", htmlspecialchars( $meta->change, ENT_QUOTES, 'UTF-8' ) );
@@ -345,7 +353,7 @@ class xrowMetaDataType extends eZDataType
         $xml->appendChild( $xmldom );
 
         return $xml->saveXML();
-	}
+    }
 
     /*!
      \reimp
@@ -354,24 +362,24 @@ class xrowMetaDataType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-	function serializeContentObjectAttribute( $package, $objectAttribute )
-	{
-		$xmlString = self::saveXML( $objectAttribute->content() );
-	    $DOMNode = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+    function serializeContentObjectAttribute( $package, $objectAttribute )
+    {
+        $xmlString = self::saveXML( $objectAttribute->content() );
+        $DOMNode = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-	    if ( $xmlString != '' )
-	    {
-	    	$doc = new DOMDocument( '1.0', 'utf-8' );
-	    	$success = $doc->loadXML( $xmlString );
-	        $importedRootNode = $DOMNode->ownerDocument->importNode( $doc->documentElement, true );
-	        $DOMNode->appendChild( $importedRootNode );
-	     }
-	    return $DOMNode;
-	}
+        if ( $xmlString != '' )
+        {
+            $doc = new DOMDocument( '1.0', 'utf-8' );
+            $success = $doc->loadXML( $xmlString );
+            $importedRootNode = $DOMNode->ownerDocument->importNode( $doc->documentElement, true );
+            $DOMNode->appendChild( $importedRootNode );
+         }
+        return $DOMNode;
+    }
 
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-	    foreach ( $attributeNode->childNodes as $childNode )
+        foreach ( $attributeNode->childNodes as $childNode )
         {
             if ( $childNode->nodeType == XML_ELEMENT_NODE )
             {

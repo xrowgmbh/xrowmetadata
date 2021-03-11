@@ -28,6 +28,10 @@
         <translation>Suchbegriffe (Meta Keywords)</translation>
     </message>
     <message>
+        <source>Canonical Link (starts with protocol https)</source>
+        <translation>Kanonische URL (beginnt mit Protokoll https)</translation>
+    </message>
+    <message>
         <source>Use in sitemap</source>
         <translation>In Sitemap nutzen</translation>
     </message>
@@ -98,6 +102,10 @@
         <source>Priority</source>
         <translation>Priorität</translation>
     </message>
+    <message>
+        <source>Canonical Link</source>
+        <translation>Kanonische URL</translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
@@ -117,6 +125,10 @@
     <message>
         <source>page</source>
         <translation>Seite</translation>
+    </message>
+    <message>
+        <source>Canonical url must use https protocol.</source>
+        <translation>Die kanonische Url muss https-Protokoll verwenden.</translation>
     </message>
 </context>
 </TS>

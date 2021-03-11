@@ -8,12 +8,14 @@ class xrowMetaData extends ezcBaseStruct
     public $keywords = array();
     public $description;
     public $sitemap_use;
+    public $canonical;
 
-    public function __construct( $title = false, $keywords = array(), $description = false, $priority = false, $change = false, $sitemap_use = false )
+    public function __construct( $title = false, $keywords = array(), $description = false, $priority = false, $change = false, $sitemap_use = false, $canonical = false)
     {
         $this->title = $title;
         $this->keywords = $keywords;
         $this->description = $description;
+        $this->canonical = $canonical;
         $this->sitemap_use = $sitemap_use;
         if ( empty( $priority ) )
         {
@@ -57,7 +59,7 @@ class xrowMetaData extends ezcBaseStruct
 
     function attributes()
     {
-        return array('title','description','keywords','sitemap_use');
+        return array('title','description','keywords','sitemap_use','canonical');
     }
 
     function attribute( $name )
@@ -70,7 +72,7 @@ class xrowMetaData extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new xrowMetaData( $array['title'], $array['keywords'], $array['description'], $array['priority'], $array['change'] );
+        return new xrowMetaData( $array['title'], $array['keywords'], $array['description'], $array['priority'], $array['change'], $array['canonical'] );
     }
 }
 ?>
