@@ -64,7 +64,7 @@ class xrowMetaDataType extends eZDataType
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Description should be shorter as 155 characters.' ) );
                     return eZInputValidator::STATE_INVALID;
             }
-            if ( !empty( $data['canonical']) && substr($data['canonical'], 0, 8) != "https://" )
+            if ( !empty( $data['canonical_url']) && substr($data['canonical_url'], 0, 8) != "https://" )
             {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Canonical url must use https protocol.' ) );
                     return eZInputValidator::STATE_INVALID;
@@ -236,7 +236,7 @@ class xrowMetaDataType extends eZDataType
                                     htmlspecialchars_decode( (string)$xml->priority, ENT_QUOTES ),
                                     htmlspecialchars_decode( (string)$xml->change, ENT_QUOTES ),
                                     htmlspecialchars_decode( (string)$xml->sitemap_use , ENT_QUOTES ),
-                                    htmlspecialchars_decode( (string)$xml->canonical , ENT_QUOTES ) );
+                                    htmlspecialchars_decode( (string)$xml->canonical_url , ENT_QUOTES ) );
           return $meta;
        }
        catch ( Exception $e )
@@ -249,7 +249,7 @@ class xrowMetaDataType extends eZDataType
      */
     function fillMetaData( $array )
     {
-        return new xrowMetaData( $array['title'], $array['keywords'], $array['description'], $array['priority'], $array['change'], $array['sitemap_use'], $array['canonical'] );
+        return new xrowMetaData( $array['title'], $array['keywords'], $array['description'], $array['priority'], $array['change'], $array['sitemap_use'], $array['canonical_url'] );
     }
     /*!
      Returns the content.
@@ -335,7 +335,7 @@ class xrowMetaDataType extends eZDataType
         $xmldom->appendChild( $node );
         $node = $xml->createElement( "description", htmlspecialchars( $meta->description, ENT_QUOTES, 'UTF-8' ) );
         $xmldom->appendChild( $node );
-        $node = $xml->createElement( "canonical", htmlspecialchars( $meta->canonical, ENT_QUOTES, 'UTF-8' ) );
+        $node = $xml->createElement( "canonical_url", htmlspecialchars( $meta->canonical_url, ENT_QUOTES, 'UTF-8' ) );
         $xmldom->appendChild( $node );
         if (!empty( $meta->priority ) )
         {

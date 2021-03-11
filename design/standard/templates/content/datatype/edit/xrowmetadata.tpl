@@ -94,7 +94,7 @@
 
         <div class="element">
             <label>{'Canonical Link (starts with protocol https)'|i18n( 'design/standard/class/datatype' )}:</label>
-            <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_keywords" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="url" name="{$attribute_base}_xrowmetadata_data_array_{$attribute.id}[canonical]" size="100" maxsize="1055" value="{$attribute.content.canonical|wash()}" />
+            <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_keywords" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="url" name="{$attribute_base}_xrowmetadata_data_array_{$attribute.id}[canonical_url]" size="100" maxsize="1055" value="{$attribute.content.canonical_url|wash()}" />
         </div>
     </div>
 
