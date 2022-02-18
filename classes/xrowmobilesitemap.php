@@ -58,5 +58,3 @@ class xrowMobileSitemap extends xrowSitemapList
         $this->root->appendChild( $node );
     }
 }
-
-?>

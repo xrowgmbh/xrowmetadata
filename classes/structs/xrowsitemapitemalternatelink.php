@@ -34,4 +34,3 @@ class xrowSitemapItemAlternateLink extends xrowSitemapItem
         return new xrowSitemapItemAlternateLink( $array['href'] );
     }
 }
-?>

@@ -15,7 +15,6 @@ else
     );
 }
 
-
 // adding the mobile sitemap site accesses
 if ( $xrowsitemapINI->hasVariable( 'MobileSitemapSettings', 'AvailableSiteAccessList' ) )
 {
@@ -123,4 +122,3 @@ while ( @ob_end_clean() );
 echo $content;
 
 eZExecution::cleanExit();
-?>

@@ -7,5 +7,3 @@ MaxPageLimit=20
 
 # If enabled, keywords will be hidden in the 'Other options' block
 HideKeywords=disabled
-
-*/

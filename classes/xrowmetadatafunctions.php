@@ -2,7 +2,6 @@
 
 class xrowMetaDataFunctions
 {
-
     static function fetchByNode( eZContentObjectTreeNode $node )
     {
         $attributes = $node->attribute( 'data_map' );
@@ -29,5 +28,3 @@ class xrowMetaDataFunctions
         return false;
     }
 }
-
-?>

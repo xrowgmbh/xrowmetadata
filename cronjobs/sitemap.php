@@ -56,4 +56,3 @@ foreach($hostArrayWares as $hostArrayWare)
     $cli->output( "Submit Sitemap $hostArrayWare to Google and Bing.....\n" );
     xrowSitemapTools::ping($hostArrayWare);
 }
-?>

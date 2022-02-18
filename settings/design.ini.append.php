@@ -1,4 +1,4 @@
-<?php /* #?ini charset="utf-8"?
+<?php /*
 
 [ExtensionSettings]
 DesignExtensions[]=xrowmetadata
@@ -8,5 +8,3 @@ BackendJavaScriptList[]=admin-maxlength.js
 
 [StylesheetSettings]
 BackendCSSFileList[]=admin-maxlength.css
-
-*/

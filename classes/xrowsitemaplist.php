@@ -91,7 +91,7 @@ class xrowSitemapList
         {
             eZDebug::writeDebug( "Time: " . date( 'd.m.Y H:i:s' ) . ". Action: " . $filename . " exists. File will be remove." );
             if ( ! $isQuiet )
-            { 
+            {
                 $cli = eZCLI::instance();
                 $cli->output( "Time: " . date( 'd.m.Y H:i:s' ) . ". Action: " . $filename . " exists. File will be remove." );
                 $cli->output( "\n" );
@@ -117,5 +117,3 @@ class xrowSitemapList
         return $this->dom->saveXML();
     }
 }
-
-?>

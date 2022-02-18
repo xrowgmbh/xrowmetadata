@@ -2,9 +2,7 @@
 /**
  * File containing the xrowmetadataInfo class.
  *
- * @package xrowmetadata
- * @version //autogentag//
- * @copyright Copyright (C) 2009 xrow GmbH. All rights reserved.
+ * @copyright Copyright (C) 2009-2022 xrow GmbH. All rights reserved.
  * @license GPL
  */
 class xrowmetadataInfo
@@ -13,11 +11,9 @@ class xrowmetadataInfo
     {
         return array(
             'Name' => "xrowmetadata",
-            'Version' => "1.0",
-            'Release' => "1",
-            'Copyright' => "Copyright (C) 2009 xrow GmbH",
+            'Version' => "1.3.5",
+            'Copyright' => "Copyright (C) 1999-2022 xrow GmbH",
             'Author' => "xrow GmbH",
-            'License' => "GPL" );
+            'License' => "GNU General Public License v2.0" );
     }
 }
-?>

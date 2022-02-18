@@ -2,17 +2,17 @@
 
 class xrowSitemapItemPriority extends xrowSitemapItem
 {
-    
+
     public $priority; // text
 
-    
+
     function __construct( $priority = false )
     {
         if ( $priority )
         {
             $this->priority = $priority;
         }
-    
+
     }
 
     function DOMElement( xrowSitemapList $sitemap )
@@ -30,4 +30,3 @@ class xrowSitemapItemPriority extends xrowSitemapItem
         return new xrowSitemapItemPriority( $array['priority'] );
     }
 }
-?>

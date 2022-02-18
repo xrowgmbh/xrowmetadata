@@ -2,7 +2,6 @@
 
 interface xrowSitemapNewsConverterInterface
 {
-
     /**
      * Receives news information from a node
      * @param eZContentObjectTreeNode $node

@@ -25,5 +25,3 @@ if ( $xrowsitemapINI->variable( 'Settings', 'MobileSitemap' ) == 'enabled' )
 }
 
 xrowSitemapTools::ping();
-
-?>

@@ -2,7 +2,6 @@
 
 class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSitemapVideoConverterInterface, xrowSitemapNewsConverterInterface
 {
-
     function addNews( eZContentObjectTreeNode $node )
     {
         $ini = eZINI::instance( 'xrowsitemap.ini' );
@@ -10,7 +9,7 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
         $images = array();
         // Adding the root node
         $object = $node->object();
-        
+
         $news->publication_date = new DateTime( '@' . $object->attribute( 'published' ) );
         $news->title = $object->attribute( 'name' );
         $user = eZUser::fetch( eZUser::anonymousId() );
@@ -22,24 +21,24 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
         if ( ( ! $ini->hasVariable( 'NewsSitemapSettings', 'UseGenres' ) || ( $ini->hasVariable( 'NewsSitemapSettings', 'UseGenres' ) && $ini->variable( 'NewsSitemapSettings', 'UseGenres' ) != 'disable' ) ) && $ini->hasVariable( 'NewsSitemapSettings', 'Genres' ) )
         {
             $genres_array = $ini->variable( 'NewsSitemapSettings', 'Genres' );
-            
+
             // set genre if set
             if ( isset( $genres_array[$node->ClassIdentifier] ) )
             {
-                $news->genres = array( 
-                    $genres_array[$node->ClassIdentifier] 
+                $news->genres = array(
+                    $genres_array[$node->ClassIdentifier]
                 );
             }
         }
-        
+
         $dm = $node->dataMap();
         $news->keywords = array();
-        
+
         foreach ( $dm as $attribute )
         {
             switch ( $attribute->DataTypeString )
             {
-                
+
                 case 'xrowmetadata':
                     if ( $attribute->hasContent() )
                     {
@@ -71,14 +70,14 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
         #fixing nodes without parents. They should not exist.
         if( $node->attribute( 'parent' ) )
         {
-            $video->categories = array( 
-                $node->attribute( 'parent' )->attribute( 'name' ) 
+            $video->categories = array(
+                $node->attribute( 'parent' )->attribute( 'name' )
             );
         }
         $object = $node->object();
         $video->view_count = eZViewCounter::fetch( $node->attribute( 'node_id' ) )->Count;
         $video->publication_date = new DateTime( '@' . $object->attribute( 'published' ) );
-        
+
         $dm = $node->attribute( 'data_map' );
         foreach ( $dm as $attribute )
         {
@@ -99,7 +98,7 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
                     }
                     break;
                 case 'ezimage':
-                    
+
                     if ( $attribute->hasContent() )
                     {
                         $imagedata = $attribute->content();
@@ -158,7 +157,7 @@ class xrowSitemapConverter implements xrowSitemapImageConverterInterface, xrowSi
             switch ( $attribute->DataTypeString )
             {
                 case 'ezimage':
-                    
+
                     if ( $attribute->hasContent() )
                     {
                         if ( $images === false )

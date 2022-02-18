@@ -1,4 +1,5 @@
 <?php
+
 class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
 {
     /**
@@ -13,13 +14,13 @@ class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
      * @see ezfSolrDocumentFieldName::$FieldTypeMap
      * @var array
      */
-    public static $subattributesDefinition = array( 
+    public static $subattributesDefinition = array(
         self::DEFAULT_SUBATTRIBUTE => 'text',
         'description' => 'text',
         'title' => 'text',
         'sitemap_use' => 'text'
     );
-    
+
     /**
      * The name of the default subattribute. It will be used when
      * this field is requested with no subfield refinement.
@@ -81,7 +82,7 @@ class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
     {
         // Generate the list of subfield names.
         $subfields = array();
-        
+
         //   Handle first the default subattribute
         $subattributesDefinition = self::$subattributesDefinition;
         if ( ! in_array( $subattributesDefinition[self::DEFAULT_SUBATTRIBUTE], $exclusiveTypeFilter ) )
@@ -89,7 +90,7 @@ class ezfSolrDocumentFieldxrowMetadata extends ezfSolrDocumentFieldBase
             $subfields[] = parent::generateAttributeFieldName( $classAttribute, $subattributesDefinition[self::DEFAULT_SUBATTRIBUTE] );
         }
         unset( $subattributesDefinition[self::DEFAULT_SUBATTRIBUTE] );
-        
+
         //   Then hanlde all other subattributes
         foreach ( $subattributesDefinition as $name => $type )
         {

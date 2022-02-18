@@ -2,17 +2,17 @@
 
 class xrowSitemapItemFrequency extends xrowSitemapItem
 {
-    
+
     public $frequency; // text
 
-    
+
     function __construct( $frequency = false )
     {
         if ( $frequency )
         {
             $this->frequency = $frequency;
         }
-    
+
     }
 
     function DOMElement( xrowSitemapList $sitemap )
@@ -30,4 +30,3 @@ class xrowSitemapItemFrequency extends xrowSitemapItem
         return new xrowSitemapItemFrequency( $array['frequency'] );
     }
 }
-?>

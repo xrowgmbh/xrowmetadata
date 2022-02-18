@@ -2,7 +2,6 @@
 
 interface xrowSitemapImageConverterInterface
 {
-
     /**
      * Receives image information from a node
      * @param eZContentObjectTreeNode $node
