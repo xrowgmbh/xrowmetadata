@@ -20,4 +20,3 @@ abstract class xrowSitemapItem extends ezcBaseStruct
         return $this->$name;
     }
 }
-?>

@@ -10,8 +10,8 @@ if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'AvailableSiteAccessList' 
 }
 else
 {
-    $siteAccessArray = array( 
-        $ini->variable( 'SiteSettings', 'DefaultAccess' ) 
+    $siteAccessArray = array(
+        $ini->variable( 'SiteSettings', 'DefaultAccess' )
     );
 }
 
@@ -25,5 +25,3 @@ if ( $xrowsitemapINI->variable( 'Settings', 'NewsSitemap' ) == 'enabled' )
 }
 
 xrowSitemapTools::ping();
-
-?>

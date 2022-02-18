@@ -2,7 +2,6 @@
 
 interface xrowSitemapVideoConverterInterface
 {
-
     /**
      * Receives video information from a node
      * @param eZContentObjectTreeNode $node

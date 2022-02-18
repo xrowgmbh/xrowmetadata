@@ -75,4 +75,3 @@ class xrowMetaData extends ezcBaseStruct
         return new xrowMetaData( $array['title'], $array['keywords'], $array['description'], $array['priority'], $array['change'], $array['canonical_url'] );
     }
 }
-?>

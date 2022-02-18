@@ -1,6 +1,4 @@
-<?php /* 
+<?php /*
 
 [SolrFieldMapSettings]
 CustomMap[xrowmetadata]=ezfSolrDocumentFieldxrowMetadata
-
-*/ ?>

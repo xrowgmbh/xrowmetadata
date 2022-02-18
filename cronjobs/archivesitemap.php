@@ -10,8 +10,8 @@ if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'AvailableSiteAccessList' 
 }
 else
 {
-    $siteAccessArray = array( 
-        $ini->variable( 'SiteSettings', 'DefaultAccess' ) 
+    $siteAccessArray = array(
+        $ini->variable( 'SiteSettings', 'DefaultAccess' )
     );
 }
 

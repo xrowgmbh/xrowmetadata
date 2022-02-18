@@ -1,7 +1,6 @@
-<?php /* #?ini charset="utf8"?
+<?php /*
 
 [ModuleSettings]
 ExtensionRepositories[]=xrowmetadata
 
 ModuleList[]=sitemaps
-*/ ?>

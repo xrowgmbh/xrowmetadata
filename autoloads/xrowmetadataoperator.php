@@ -2,7 +2,6 @@
 
 class xrowMetaDataOperator
 {
-
     function operatorList()
     {
         return array(
@@ -68,7 +67,7 @@ class xrowMetaDataOperator
                         $page_count=ceil($replaceArray['count:localbusiness']/$page_limit);
                         $page_nr=($page_offset/$page_limit)+1;
                         $replaceArray['pagecount']=ezpI18n::tr( 'kernel/classes/datatypes', 'page' )." ".$page_nr."/".$page_count;
-                        
+
                         $operatorValue = xrowMetaDataFunctions::fetchByObject( $node->attribute( 'object' ) );
                         if($operatorValue !== false)
                         {
@@ -94,7 +93,7 @@ class xrowMetaDataOperator
             }break;
         }
     }
-    
+
     /**
      * getReplaceValue()
      *
@@ -137,5 +136,3 @@ class xrowMetaDataOperator
         return $search_value;
     }
 }
-
-?>

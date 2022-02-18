@@ -8,15 +8,15 @@ class xrowSitemapItemImage extends xrowSitemapItem
     public $title; // text
     public $license; // text
 
-    
+
     function DOMElement( xrowSitemapList $sitemap )
     {
         $image = $sitemap->dom->createElement( 'image:image' );
-        
+
         $loc = $sitemap->dom->createElement( 'image:loc' );
         $loc->appendChild( $sitemap->dom->createTextNode( $this->url ) );
         $image->appendChild( $loc );
-        
+
         if ( isset( $this->caption ) )
         {
             $caption = $sitemap->dom->createElement( 'image:caption' );
@@ -46,4 +46,3 @@ class xrowSitemapItemImage extends xrowSitemapItem
         return new xrowSitemapItemImage( $array['url'], $array['caption'], $array['geo_location'], $array['title'], $array['license'] );
     }
 }
-?>

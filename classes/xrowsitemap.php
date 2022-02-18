@@ -6,5 +6,3 @@ class xrowSitemap extends xrowSitemapList
     const SUFFIX = 'xml';
     const ITEMNAME = 'url';
 }
-
-?>

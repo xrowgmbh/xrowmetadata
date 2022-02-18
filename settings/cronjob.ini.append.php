@@ -20,5 +20,3 @@ Scripts[]=mobilesitemap.php
 Scripts[]=sitemap.php
 Scripts[]=newssitemap.php
 ExtensionDirectories[]=xrowmetadata
-
-*/?>

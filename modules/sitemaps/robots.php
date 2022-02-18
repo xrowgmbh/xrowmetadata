@@ -1,4 +1,5 @@
 <?php
+
 $xrowsitemapINI = eZINI::instance( 'xrowsitemap.ini' );
 if ( $xrowsitemapINI->hasVariable( 'SitemapSettings', 'RobotsPath' ) )
 {
@@ -29,4 +30,3 @@ while ( @ob_end_clean() );
 echo $content;
 
 eZExecution::cleanExit();
-?>

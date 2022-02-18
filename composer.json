@@ -1,6 +1,6 @@
 {
     "name": "xrow/xrowmetadata-ls",
-    "description": "Add Metadata and sitemap capabilites to eZ Publish.",
+    "description": "Add Metadata and sitemap capabilities to eZ Publish.",
     "type": "ezpublish-legacy-extension",
     "license": "GPL-2.0",
     "authors": [
@@ -9,7 +9,6 @@
             "homepage": "http://www.xrow.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "ezsystems/ezpublish-legacy-installer": "*"
     },

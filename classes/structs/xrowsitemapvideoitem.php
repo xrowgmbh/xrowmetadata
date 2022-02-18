@@ -63,20 +63,20 @@ class xrowSitemapItemVideo extends xrowSitemapItem
             $player_locNode->appendChild( $sitemap->dom->createTextNode( $this->player_loc ) );
             $video->appendChild( $player_locNode );
         }
-        
+
         if ( $this->duration )
         {
             $durationNode = $sitemap->dom->createElement( 'video:duration' );
             $durationNode->appendChild( $sitemap->dom->createTextNode( $this->duration ) );
             $video->appendChild( $durationNode );
         }
-        
+
         if ( $this->tags )
         {
             foreach ( $this->tags as $tag )
             {
                 $tagNode = $sitemap->dom->createElement( 'video:tag' );
-                
+
                 $tagNode->appendChild( $sitemap->dom->createTextNode( htmlspecialchars( $tag, ENT_QUOTES, 'UTF-8' ) ) );
                 $video->appendChild( $tagNode );
             }
@@ -86,7 +86,7 @@ class xrowSitemapItemVideo extends xrowSitemapItem
             foreach ( $this->categories as $category )
             {
                 $categoryNode = $sitemap->dom->createElement( 'video:category' );
-                
+
                 $categoryNode->appendChild( $sitemap->dom->createTextNode( htmlspecialchars( $category, ENT_QUOTES, 'UTF-8' ) ) );
                 $video->appendChild( $categoryNode );
             }
@@ -120,4 +120,3 @@ class xrowSitemapItemVideo extends xrowSitemapItem
         return new xrowSitemapItemVideo( $array['thumbnail_loc'], $array['title'], $array['description'], $array['content_loc'], $array['duration'], $array['expiration_date'], $array['rating'], $array['content_segment_loc'], $array['view_count'], $array['publication_date'], $array['tags'], $array['categories'], $array['family_friendly'] );
     }
 }
-?>
