@@ -7,9 +7,9 @@ class xrowMetaDataType extends eZDataType
     /*!
      Initializes with a keyword id and a description.
     */
-    function xrowMetaDataType()
+    function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Metadata', 'Datatype name' ), array(
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Metadata', 'Datatype name' ), array(
             'serialize_supported' => true
         ) );
     }
