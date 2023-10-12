@@ -9,3 +9,5 @@ TranslationExtensions[]=xrowmetadata
 [RoleSettings]
 PolicyOmitList[]=sitemaps/index
 PolicyOmitList[]=sitemaps/robots
+
+*/ ?>

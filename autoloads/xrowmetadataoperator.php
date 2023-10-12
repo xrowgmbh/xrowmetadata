@@ -113,22 +113,22 @@ class xrowMetaDataOperator
                 {
                     case "count":
                         $meta_title = str_replace("[count]", $replaceArray['count'], $search_value);
-                        continue;
+                        continue 2;
                     case "name":
                         $meta_title = str_replace("[name]", $replaceArray['name'], $search_value);
-                        continue;
+                        continue 2;
                     case "path":
                         $meta_title = str_replace("[path]", $replaceArray['path'], $search_value);
-                        continue;
+                        continue 2;
                     case "parentname":
                         $meta_title = str_replace("[parentname]", $replaceArray['parentname'], $search_value);
-                        continue;
+                        continue 2;
                     case "count:localbusiness":
                         $meta_title = str_replace("[count:localbusiness]", $replaceArray['count:localbusiness'], $search_value);
-                        continue;
+                        continue 2;
                     case "pagecount":
                         $meta_title = str_replace("[pagecount]", $replaceArray['pagecount'], $search_value);
-                        continue;
+                        continue 2;
                 }
                 $search_value = $meta_title;
             }

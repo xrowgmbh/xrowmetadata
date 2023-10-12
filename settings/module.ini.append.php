@@ -4,3 +4,5 @@
 ExtensionRepositories[]=xrowmetadata
 
 ModuleList[]=sitemaps
+
+*/ ?>
