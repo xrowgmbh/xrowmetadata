@@ -59,7 +59,7 @@ class xrowMetaDataType extends eZDataType
                     return eZInputValidator::STATE_INVALID;
                 }
             }
-            if ( count( $data['description'] ) > 160 )
+            if ( is_countable( $data['description'] ) > 160 )
             {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Description should be shorter as 155 characters.' ) );
                     return eZInputValidator::STATE_INVALID;
@@ -163,7 +163,9 @@ class xrowMetaDataType extends eZDataType
         $res = $db->arrayQuery( "SELECT keyword_id
                                  FROM ezkeyword_attribute_link
                                  WHERE objectattribute_id='$contentObjectAttributeID'" );
-        if ( !count ( $res ) )
+
+        //if ( !is_countable ( $res ) )
+        if ( is_array( $res ) && count( $res ) == 0 )
         {
             /* If there are no keywords at all, we abort the function as there
              * is nothing more to do */
@@ -179,8 +181,9 @@ class xrowMetaDataType extends eZDataType
                                  FROM ezkeyword, ezkeyword_attribute_link
                                  WHERE ezkeyword.id = ezkeyword_attribute_link.keyword_id
                                      AND ezkeyword.id IN ($keywordIDString)
-                                 GROUP BY keyword_id
-                                 HAVING COUNT(*) = 1" );
+                                 Group By keyword_id
+                                 HAVING count(*) = 1" );
+
         $unusedKeywordIDs = array();
         foreach ( $res as $record )
             $unusedKeywordIDs[] = $record['keyword_id'];
